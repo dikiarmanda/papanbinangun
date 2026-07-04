@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect fill="#E8D9C0" width="800" height="600"/>
+  <rect x="40" y="40" width="720" height="520" fill="none" stroke="#C9A66B" stroke-width="4"/>
+  <text x="400" y="290" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#8B5E3C">Foto Segera Hadir</text>
+  <text x="400" y="330" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#4A3222">Desa Wisata</text>
+</svg>

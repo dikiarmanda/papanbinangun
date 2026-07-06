@@ -19,7 +19,8 @@
         <div class="hero-actions">
             <a href="<?= site_url('wisata') ?>" class="btn btn-primary"><i class="fa-solid fa-compass"></i> Jelajahi
                 Wisata</a>
-            <a href="<?= site_url('kontak') ?>" class="btn btn-outline-light"><i class="fa-solid fa-envelope"></i>
+            <a href="<?= wa_link($pengaturan['no_whatsapp'], 'Halo, saya ingin bertanya tentang ' . $pengaturan['nama_desa']) ?>"
+                class="btn btn-outline-light"><i class="fa-solid fa-envelope"></i>
                 Hubungi Kami</a>
         </div>
     </div>
@@ -95,7 +96,11 @@
                         </a>
                         <div class="card-body">
                             <h3><a href="<?= site_url('wisata/' . $w['slug']) ?>"><?= esc($w['nama']) ?></a></h3>
-                            <a href="<?= site_url('wisata/' . $w['slug']) ?>" class="btn btn-outline btn-card">
+                            <a href="<?= wa_link($pengaturan['no_whatsapp'], 'Halo, saya ingin reservasi untuk ' . $w['nama']) ?>"
+                                class="btn btn-outline btn-card">
+                                <i class="fa-solid fa-ticket"></i> Reservasi
+                            </a>
+                            <a href="<?= site_url('wisata/' . $w['slug']) ?>" class="btn btn-outline btn-card btn-sm">
                                 <i class="fa-solid fa-eye"></i> Lihat Detail
                             </a>
                         </div>

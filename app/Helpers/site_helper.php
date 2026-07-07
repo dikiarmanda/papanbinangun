@@ -93,6 +93,13 @@ if (!function_exists('banner_image_url')) {
 }
 
 
+if (!function_exists('vendor_url')) {
+    function vendor_url(string $path): string
+    {
+        return base_url('assets/vendor/' . ltrim($path, '/'));
+    }
+}
+
 if (!function_exists('wa_link')) {
     function wa_link(?string $number, string $message = ''): string
     {

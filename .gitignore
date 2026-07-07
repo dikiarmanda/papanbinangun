@@ -85,6 +85,7 @@ php_errors.log
 # Composer / Node
 #-------------------------
 vendor/
+!public/assets/vendor/
 node_modules/
 
 # Uploaded files (keep folder)

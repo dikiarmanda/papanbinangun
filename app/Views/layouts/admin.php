@@ -7,10 +7,9 @@
     <title><?= esc($title ?? 'Admin') ?> — Panel Admin</title>
     <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
     <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css">
+    <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
+    <link rel="stylesheet" href="<?= vendor_url('select2/css/select2.min.css') ?>">
+    <link rel="stylesheet" href="<?= vendor_url('dropify/css/dropify.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/admin.css') ?>">
 </head>
 
@@ -106,9 +105,9 @@
             <?= $this->renderSection('content') ?>
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
+    <script src="<?= vendor_url('jquery/jquery.min.js') ?>"></script>
+    <script src="<?= vendor_url('select2/js/select2.min.js') ?>"></script>
+    <script src="<?= vendor_url('dropify/js/dropify.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/lexical-editor.js') ?>"></script>
     <script src="<?= base_url('assets/js/admin.js') ?>"></script>
     <?= $this->renderSection('scripts') ?>

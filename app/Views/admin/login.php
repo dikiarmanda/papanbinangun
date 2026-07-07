@@ -7,8 +7,7 @@
     <title>Login Admin — <?= esc(pengaturan()['nama_desa'] ?? 'Wisata Binangun') ?></title>
     <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
     <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/admin.css') ?>">
 </head>
 

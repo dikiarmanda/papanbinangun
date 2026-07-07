@@ -283,3 +283,22 @@ if (!function_exists('admin_dashboard_log_rows')) {
         }, $logs);
     }
 }
+
+if (!function_exists('admin_banner_index_items')) {
+    function admin_banner_index_items(array $banners): array
+    {
+        return array_map(static function (array $row) {
+            return [
+                'id' => (int) $row['id'],
+                'gambarUrl' => banner_image_url($row['gambar']),
+                'judul' => $row['judul'] ?: 'Tanpa judul',
+                'linkUrl' => $row['link_url'] ?? '',
+                'urutan' => (int) ($row['urutan'] ?? 0),
+                'status' => $row['status'],
+                'statusBadge' => $row['status'] === 'publish' ? 'publish' : 'draft',
+                'updateUrl' => site_url('admin/banner/update/' . $row['id']),
+                'deleteUrl' => site_url('admin/banner/delete/' . $row['id']),
+            ];
+        }, $banners);
+    }
+}

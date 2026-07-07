@@ -125,7 +125,7 @@ $features = [
                     <i class="fa-solid fa-compass"></i> Jelajahi Destinasi
                 </a>
                 <a href="<?= site_url('kontak') ?>" class="btn btn-outline">
-                    <i class="fa-solid fa-envelope"></i> Hubungi Kami
+                    <i class="fa-solid fa-ticket"></i> Reservasi
                 </a>
             </div>
         </div>

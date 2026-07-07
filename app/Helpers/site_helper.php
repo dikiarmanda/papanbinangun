@@ -77,6 +77,21 @@ if (!function_exists('upload_url')) {
     }
 }
 
+if (!function_exists('banner_image_url')) {
+    function banner_image_url(?string $path): string
+    {
+        if (!$path) {
+            return unsplash_dummy('wisata', 0);
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        return base_url($path);
+    }
+}
+
 
 if (!function_exists('wa_link')) {
     function wa_link(?string $number, string $message = ''): string

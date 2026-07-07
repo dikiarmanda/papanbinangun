@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   initMobileNav();
-  initHeroCarousel();
+  initHeroBanner();
   initTestimonialCarousel();
   initLightbox();
 });
@@ -37,14 +37,14 @@ function initMobileNav() {
   });
 }
 
-function initHeroCarousel() {
-  const root = document.getElementById("heroCarousel");
+function initHeroBanner() {
+  const root = document.getElementById("heroBanner");
   if (!root) return;
 
-  const slides = Array.from(root.querySelectorAll(".carousel-slide"));
-  const dots = Array.from(root.querySelectorAll(".carousel-dot"));
-  const prevBtn = root.querySelector(".carousel-prev");
-  const nextBtn = root.querySelector(".carousel-next");
+  const slides = Array.from(root.querySelectorAll(".hero-banner-slide"));
+  const dots = Array.from(root.querySelectorAll(".hero-banner-dot"));
+  const prevBtn = root.querySelector(".hero-banner-prev");
+  const nextBtn = root.querySelector(".hero-banner-next");
   const intervalMs = parseInt(root.dataset.interval || "5000", 10);
 
   if (slides.length < 2) return;

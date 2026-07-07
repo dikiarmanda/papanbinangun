@@ -44,6 +44,10 @@
                     class="<?= str_starts_with(uri_string(), 'admin/galeri') ? 'active' : '' ?>">
                     <i class="fa-solid fa-images"></i> Galeri
                 </a>
+                <a href="<?= site_url('admin/banner') ?>"
+                    class="<?= str_starts_with(uri_string(), 'admin/banner') ? 'active' : '' ?>">
+                    <i class="fa-solid fa-panorama"></i> Banner Beranda
+                </a>
                 <a href="<?= site_url('admin/users') ?>"
                     class="<?= str_starts_with(uri_string(), 'admin/users') ? 'active' : '' ?>">
                     <i class="fa-solid fa-users-gear"></i> Akun Admin

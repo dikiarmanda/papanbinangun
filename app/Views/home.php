@@ -1,40 +1,69 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
-<section class="hero-carousel" id="heroCarousel" aria-label="Carousel beranda" data-interval="5000">
-    <div class="carousel-track">
-        <?php foreach ($carouselSlides as $i => $slide): ?>
-            <div class="carousel-slide<?= $i === 0 ? ' is-active' : '' ?>"
-                style="background-image: url('<?= $slide['image'] ?>')" role="group" aria-roledescription="slide"
-                aria-label="<?= ($i + 1) ?> dari <?= count($carouselSlides) ?>">
-                <div class="carousel-overlay"></div>
+<section class="hero-split" aria-label="Beranda">
+    <div class="hero-split-decor" aria-hidden="true">
+        <span class="hero-decor hero-decor-pattern"></span>
+        <span class="hero-decor hero-decor-medallion"></span>
+        <span class="hero-decor hero-decor-corner hero-decor-corner--bl"></span>
+        <span class="hero-decor hero-decor-corner hero-decor-corner--tr"></span>
+    </div>
+    <div class="container hero-split-inner">
+        <div class="hero-text">
+            <span class="stamp">Wisata Binangun</span>
+            <h1><?= esc($pengaturan['nama_desa']) ?></h1>
+            <p class="hero-tagline"><?= esc($pengaturan['tagline']) ?></p>
+            <div class="hero-actions">
+                <a href="<?= site_url('wisata') ?>" class="btn btn-primary"><i class="fa-solid fa-compass"></i> Jelajahi
+                    Wisata</a>
+                <a href="<?= wa_link($pengaturan['no_whatsapp'], 'Halo, saya ingin bertanya tentang ' . $pengaturan['nama_desa']) ?>"
+                    class="btn btn-outline-light" target="_blank" rel="noopener"><i class="fa-solid fa-ticket"></i>
+                    Reservasi</a>
             </div>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="container hero-content">
-        <span class="stamp">Wisata Binangun</span>
-        <h1><?= esc($pengaturan['nama_desa']) ?></h1>
-        <p class="hero-tagline"><?= esc($pengaturan['tagline']) ?></p>
-        <div class="hero-actions">
-            <a href="<?= site_url('wisata') ?>" class="btn btn-primary"><i class="fa-solid fa-compass"></i> Jelajahi
-                Wisata</a>
-            <a href="<?= wa_link($pengaturan['no_whatsapp'], 'Halo, saya ingin bertanya tentang ' . $pengaturan['nama_desa']) ?>"
-                class="btn btn-outline-light"><i class="fa-solid fa-envelope"></i>
-                Hubungi Kami</a>
         </div>
-    </div>
 
-    <button type="button" class="carousel-btn carousel-prev" aria-label="Slide sebelumnya"><i
-            class="fa-solid fa-chevron-left"></i></button>
-    <button type="button" class="carousel-btn carousel-next" aria-label="Slide berikutnya"><i
-            class="fa-solid fa-chevron-right"></i></button>
+        <div class="hero-banner" id="heroBanner" aria-label="Banner beranda" data-interval="5000">
+            <div class="hero-banner-frame">
+                <div class="hero-banner-track">
+                    <?php foreach ($heroBanners as $i => $banner): ?>
+                        <?php $imgUrl = banner_image_url($banner['gambar']); ?>
+                        <div class="hero-banner-slide<?= $i === 0 ? ' is-active' : '' ?>" role="group"
+                            aria-roledescription="slide"
+                            aria-label="<?= ($i + 1) ?> dari <?= count($heroBanners) ?>">
+                            <?php if (!empty($banner['link_url'])): ?>
+                                <a href="<?= esc($banner['link_url'], 'attr') ?>" class="hero-banner-link" target="_blank"
+                                    rel="noopener">
+                                    <img src="<?= esc($imgUrl, 'attr') ?>"
+                                        alt="<?= esc($banner['judul'] ?: $pengaturan['nama_desa'], 'attr') ?>"
+                                        loading="<?= $i === 0 ? 'eager' : 'lazy' ?>">
+                                </a>
+                            <?php else: ?>
+                                <img src="<?= esc($imgUrl, 'attr') ?>"
+                                    alt="<?= esc($banner['judul'] ?: $pengaturan['nama_desa'], 'attr') ?>"
+                                    loading="<?= $i === 0 ? 'eager' : 'lazy' ?>">
+                            <?php endif; ?>
+                            <?php if (!empty($banner['judul'])): ?>
+                                <p class="hero-banner-caption"><?= esc($banner['judul']) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
 
-    <div class="carousel-dots" role="tablist" aria-label="Navigasi slide">
-        <?php foreach ($carouselSlides as $i => $slide): ?>
-            <button type="button" class="carousel-dot<?= $i === 0 ? ' is-active' : '' ?>" data-index="<?= $i ?>"
-                aria-label="Slide <?= $i + 1 ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"></button>
-        <?php endforeach; ?>
+                <?php if (count($heroBanners) > 1): ?>
+                    <button type="button" class="hero-banner-btn hero-banner-prev" aria-label="Banner sebelumnya"><i
+                            class="fa-solid fa-chevron-left"></i></button>
+                    <button type="button" class="hero-banner-btn hero-banner-next" aria-label="Banner berikutnya"><i
+                            class="fa-solid fa-chevron-right"></i></button>
+                    <div class="hero-banner-dots" role="tablist" aria-label="Navigasi banner">
+                        <?php foreach ($heroBanners as $i => $banner): ?>
+                            <button type="button" class="hero-banner-dot<?= $i === 0 ? ' is-active' : '' ?>"
+                                data-index="<?= $i ?>" aria-label="Banner <?= $i + 1 ?>"
+                                aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"></button>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 
     <a href="#sekilas" class="hero-scroll" aria-label="Gulir ke konten">
@@ -96,8 +125,8 @@
                         </a>
                         <div class="card-body">
                             <h3><a href="<?= site_url('wisata/' . $w['slug']) ?>"><?= esc($w['nama']) ?></a></h3>
-                            <a href="<?= wa_link($pengaturan['no_whatsapp'], 'Halo, saya ingin reservasi untuk ' . $w['nama']) ?>"
-                                class="btn btn-outline btn-card">
+                            <a href="<?= wa_link($pengaturan['no_whatsapp'], 'hai saya mau reservasi untuk ' . $w['nama']) ?>"
+                                class="btn btn-outline btn-card" target="_blank" rel="noopener">
                                 <i class="fa-solid fa-ticket"></i> Reservasi
                             </a>
                             <a href="<?= site_url('wisata/' . $w['slug']) ?>" class="btn btn-outline btn-card btn-sm">
@@ -177,11 +206,10 @@
                             </div>
                             <p class="testimonial-text">“<?= esc($t['teks']) ?>”</p>
                             <footer class="testimonial-author">
-                                <img src="<?= $t['foto'] ?>" alt="<?= esc($t['nama']) ?>" loading="lazy" width="48"
+                                <img src="<?= esc($t['foto'], 'attr') ?>" alt="<?= esc($t['nama']) ?>" loading="lazy" width="48"
                                     height="48">
                                 <div>
                                     <strong><?= esc($t['nama']) ?></strong>
-                                    <span><?= esc($t['asal']) ?></span>
                                 </div>
                             </footer>
                         </blockquote>

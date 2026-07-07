@@ -53,6 +53,12 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->post('galeri/store', 'Admin\GaleriAdminController::store');
     $routes->post('galeri/delete/(:num)', 'Admin\GaleriAdminController::delete/$1');
 
+    // Banner beranda
+    $routes->get('banner', 'Admin\BannerAdminController::index');
+    $routes->post('banner/store', 'Admin\BannerAdminController::store');
+    $routes->post('banner/update/(:num)', 'Admin\BannerAdminController::update/$1');
+    $routes->post('banner/delete/(:num)', 'Admin\BannerAdminController::delete/$1');
+
     // Akun admin (hanya kelola role admin, superadmin disembunyikan)
     $routes->get('users', 'Admin\UserAdminController::index');
     $routes->get('users/create', 'Admin\UserAdminController::create');

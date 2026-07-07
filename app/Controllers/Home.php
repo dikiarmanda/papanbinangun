@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ArtikelModel;
 use App\Models\WisataModel;
 use App\Models\GaleriModel;
+use App\Models\HeroBannerModel;
 
 class Home extends BaseController
 {
@@ -20,7 +21,7 @@ class Home extends BaseController
             'wisata' => (new WisataModel())->getPublished(6),
             'artikel' => (new ArtikelModel())->getPublished(3),
             'galeri' => (new GaleriModel())->orderBy('created_at', 'DESC')->findAll(6),
-            'carouselSlides' => $this->carouselSlides(),
+            'heroBanners' => $this->heroBanners(),
             'youtubeId' => 'nUT9GVqArXU',
             'supporters' => $this->supporters(),
             'testimonials' => $this->testimonials(),
@@ -30,24 +31,32 @@ class Home extends BaseController
         ]);
     }
 
-    private function carouselSlides(): array
+    private function heroBanners(): array
     {
+        $banners = (new HeroBannerModel())->getPublished();
+
+        if ($banners !== []) {
+            return $banners;
+        }
+
         return [
             [
-                'image' => 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1600&q=80',
-                'caption' => 'Sawah terasering yang menghijau',
+                'id' => 0,
+                'judul' => 'Sawah terasering yang menghijau',
+                'gambar' => 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1400&q=80',
+                'link_url' => null,
             ],
             [
-                'image' => 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1600&q=80',
-                'caption' => 'Warisan budaya yang hidup',
+                'id' => 0,
+                'judul' => 'Warisan budaya yang hidup',
+                'gambar' => 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1400&q=80',
+                'link_url' => null,
             ],
             [
-                'image' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80',
-                'caption' => 'Pemandangan alam yang menenangkan',
-            ],
-            [
-                'image' => 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80',
-                'caption' => 'Hutan dan udara segar pedesaan',
+                'id' => 0,
+                'judul' => 'Pemandangan alam yang menenangkan',
+                'gambar' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80',
+                'link_url' => null,
             ],
         ];
     }
@@ -77,74 +86,40 @@ class Home extends BaseController
     {
         return [
             [
-                'nama' => 'Rina Wulandari',
-                'asal' => 'Yogyakarta',
-                'teks' => 'Suasana Wisata Binangun sangat menenangkan. Warganya ramah, udaranya segar, dan pemandangannya indah. Pasti kembali lagi!',
-                'foto' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+                'nama' => 'Maulidia Zahro',
+                'teks' => 'Wisata yg recomended. Tiket @5 k per orang, renang @5 k per orang. Minuman 5-10rb an, makanan ada indomie. Tracking kids friendly ke air terjun kurleb sekitar 10-15 mnt. Byk kamar mandi. Byk lesehan.',
+                'foto' => base_url('img/testimonials/1.png'),
                 'rating' => 5,
             ],
             [
-                'nama' => 'Andi Pratama',
-                'asal' => 'Jakarta',
-                'teks' => 'Pengalaman wisata pedesaan yang otentik. Kuliner lokalnya enak, dan destinasi alamnya cocok untuk keluarga maupun fotografi.',
-                'foto' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+                'nama' => 'Ema Rahma',
+                'teks' => 'Tempat wisata yg sangat murah meriah HTM cuma 5k aja udah bisa menikmati air terjun yg indah udah bisa healing di sini selai air terjun di pintu masuk juga ada kolam renangnya. AQ kesini udah di jam 4 sorean udah mau tutup jadi pengunjungnya udah tinggal beberap aja.',
+                'foto' => base_url('img/testimonials/2.png'),
                 'rating' => 5,
             ],
             [
-                'nama' => 'Siti Nurhaliza',
-                'asal' => 'Surabaya',
-                'teks' => 'Budaya dan tradisinya masih terjaga. Anak-anak kami belajar banyak tentang kehidupan desa. Terima kasih Binangun!',
-                'foto' => 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
+                'nama' => 'Indah Bonita',
+                'teks' => 'Masyaallah. Nemuin tempat hidden gemm yang murceee sejukk nyamannn. Semogaaa makinn rameeee pengunjung 🍃😍',
+                'foto' => base_url('img/testimonials/3.png'),
                 'rating' => 5,
             ],
             [
-                'nama' => 'Budi Santoso',
-                'asal' => 'Malang',
-                'teks' => 'Perjalanan ke Binangun jadi liburan paling memorable tahun ini. Sawah teraseringnya instagramable, warga lokalnya sangat welcoming.',
-                'foto' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+                'nama' => 'Selly Rizkiyah',
+                'teks' => 'Wisata yg underrated kayaknya, krn masih sepi, yg jual di dalem jg cuma satu. Airnya jernih, dingin, banyak muaranya, ada mushollanya. Cuma mungkin bs dikembangkan lagi. Tiketnya 5 rb, wajar aja. Overall okee lah.',
+                'foto' => base_url('img/testimonials/4.png'),
                 'rating' => 5,
             ],
             [
-                'nama' => 'Dewi Kartika',
-                'asal' => 'Bandung',
-                'teks' => 'Cocok untuk healing akhir pekan. Udara segar, suara alam, dan keramahan warga membuat kami betah berlama-lama di desa ini.',
-                'foto' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+                'nama' => 'Fany Wardana',
+                'teks' => 'Tempat nya bagus asri... Cocok untuk yang ingin menikmati suasana pedesaan dengan bermain air sungai. Sistem jual beli disini yang menarik, karena transaksinya menggunakan kepingan bambu, satu keping senilai 2rb rupiah, makanan tradisional, murah meriah. Disediakan tikar bambu untuk tempat duduk, disarankan membawa sendiri alas tikar untuk jaga-jaga apabila tikar yang disediakan habis. Ada beberapa spot air terjun.',
+                'foto' => base_url('img/testimonials/5.png'),
                 'rating' => 5,
             ],
             [
-                'nama' => 'Fajar Hidayat',
-                'asal' => 'Sidoarjo',
-                'teks' => 'Destinasi wisata yang belum terlalu ramai, justru itu kelebihannya. Bisa menikmati alam dengan tenang dan autentik.',
-                'foto' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-                'rating' => 4,
-            ],
-            [
-                'nama' => 'Maya Anggraini',
-                'asal' => 'Semarang',
-                'teks' => 'Kami ikut tur budaya dan belajar membatik serta memasak masakan tradisional. Pengalaman edukatif yang menyenangkan untuk seluruh keluarga.',
-                'foto' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80',
+                'nama' => 'Santynov19',
+                'teks' => 'Banyak di jual makanan tradisional, alat jual beli pake koin, tempat nya sejuk segar rindang, ada sungai.',
+                'foto' => base_url('img/testimonials/6.png'),
                 'rating' => 5,
-            ],
-            [
-                'nama' => 'Rizky Aditya',
-                'asal' => 'Denpasar',
-                'teks' => 'Sebagai pecinta fotografi, Binangun punya banyak spot indah. Golden hour di persawahan adalah momen yang tak terlupakan.',
-                'foto' => 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=200&q=80',
-                'rating' => 5,
-            ],
-            [
-                'nama' => 'Lestari Putri',
-                'asal' => 'Pasuruan',
-                'teks' => 'Bangga ada desa wisata secantik ini di kabupaten kami. Sudah saya rekomendasikan ke teman-teman kantor dan semuanya puas.',
-                'foto' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-                'rating' => 5,
-            ],
-            [
-                'nama' => 'Hendra Wijaya',
-                'asal' => 'Bekasi',
-                'teks' => 'Akses jalan sudah bagus, fasilitas parkir cukup, dan pemandu wisata sangat informatif. Worth it untuk dikunjungi bareng teman-teman.',
-                'foto' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80',
-                'rating' => 4,
             ],
         ];
     }

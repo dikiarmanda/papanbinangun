@@ -19,6 +19,15 @@
             <?= $wisata['deskripsi'] ?>
         </div>
 
+        <?php if (!empty($pengaturan['no_whatsapp'])): ?>
+            <div class="text-center mt-lg">
+                <a href="<?= wa_link($pengaturan['no_whatsapp'], 'hai saya mau reservasi untuk ' . $wisata['nama']) ?>"
+                    class="btn btn-primary" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-ticket"></i> Reservasi
+                </a>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($fasilitas)): ?>
             <div class="wisata-fasilitas mt-lg">
                 <h3><i class="fa-solid fa-list-check"></i> Fasilitas</h3>

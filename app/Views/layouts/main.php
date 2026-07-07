@@ -25,7 +25,7 @@
     <meta name="twitter:image" content="<?= esc($ogImage) ?>">
     <link rel="stylesheet" href="<?= vendor_url('fonts/fonts.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
+    <link rel="stylesheet" href="<?= asset_url('assets/css/app.css') ?>">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
         </a>
     <?php endif; ?>
 
-    <script src="<?= base_url('assets/js/app.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/app.js') ?>"></script>
     <?= $this->renderSection('scripts') ?>
 </body>
 

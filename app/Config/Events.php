@@ -24,6 +24,23 @@ use CodeIgniter\HotReloader\HotReloader;
  */
 
 Events::on('pre_system', static function (): void {
+    $appConfig = config('App');
+    $envUrl = env('app.baseURL');
+
+    if (
+        ! is_cli()
+        && isset($_SERVER['HTTP_HOST'])
+        && ($envUrl === null || $envUrl === '' || str_contains((string) $envUrl, 'localhost'))
+    ) {
+        $https = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443)
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+        $scheme = $https ? 'https' : 'http';
+        $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+        $scriptDir = ($scriptDir === '/' || $scriptDir === '.') ? '' : rtrim($scriptDir, '/');
+        $appConfig->baseURL = $scheme . '://' . $_SERVER['HTTP_HOST'] . $scriptDir . '/';
+    }
+
     if (ENVIRONMENT !== 'testing') {
         $value = ini_get('zlib.output_compression');
 

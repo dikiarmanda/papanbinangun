@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('select2/css/select2.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('dropify/css/dropify.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/admin.css') ?>">
+    <link rel="stylesheet" href="<?= asset_url('assets/css/admin.css') ?>">
 </head>
 
 <body class="admin-body">
@@ -108,8 +108,8 @@
     <script src="<?= vendor_url('jquery/jquery.min.js') ?>"></script>
     <script src="<?= vendor_url('select2/js/select2.min.js') ?>"></script>
     <script src="<?= vendor_url('dropify/js/dropify.min.js') ?>"></script>
-    <script src="<?= base_url('assets/js/lexical-editor.js') ?>"></script>
-    <script src="<?= base_url('assets/js/admin.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/lexical-editor.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/admin.js') ?>"></script>
     <?= $this->renderSection('scripts') ?>
 </body>
 

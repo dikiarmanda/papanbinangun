@@ -8,7 +8,7 @@
     <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
     <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/admin.css') ?>">
+    <link rel="stylesheet" href="<?= asset_url('assets/css/admin.css') ?>">
 </head>
 
 <body class="login-body">

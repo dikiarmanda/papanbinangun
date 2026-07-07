@@ -93,10 +93,28 @@ if (!function_exists('banner_image_url')) {
 }
 
 
+if (!function_exists('asset_url')) {
+  /**
+   * URL asset publik dengan cache-bust berdasarkan waktu modifikasi file.
+   */
+  function asset_url(string $path): string
+  {
+    $path = ltrim($path, '/');
+    $url = base_url($path);
+    $file = FCPATH . str_replace('/', DIRECTORY_SEPARATOR, $path);
+
+    if (is_file($file)) {
+      $url .= '?v=' . filemtime($file);
+    }
+
+    return $url;
+  }
+}
+
 if (!function_exists('vendor_url')) {
     function vendor_url(string $path): string
     {
-        return base_url('assets/vendor/' . ltrim($path, '/'));
+        return asset_url('assets/vendor/' . ltrim($path, '/'));
     }
 }
 

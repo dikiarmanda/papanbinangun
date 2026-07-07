@@ -86,6 +86,7 @@ php_errors.log
 #-------------------------
 vendor/
 !public/assets/vendor/
+!public/assets/vendor/**
 node_modules/
 
 # Uploaded files (keep folder)

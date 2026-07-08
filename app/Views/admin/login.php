@@ -8,6 +8,7 @@
     <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
     <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
+    <link rel="stylesheet" href="<?= vendor_url('sweetalert2/css/sweetalert2.min.css') ?>">
     <link rel="stylesheet" href="<?= asset_url('assets/css/admin.css') ?>">
 </head>
 
@@ -19,18 +20,7 @@
             <p class="login-sub"><?= esc(pengaturan()['nama_desa'] ?? 'Wisata Binangun') ?></p>
         </div>
 
-        <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success" role="alert">
-                <i class="fa-solid fa-circle-check"></i>
-                <span><?= esc(session()->getFlashdata('success')) ?></span>
-            </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-error" role="alert">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <span><?= esc(session()->getFlashdata('error')) ?></span>
-            </div>
-        <?php endif; ?>
+        <?= view('partials/swal_flash') ?>
 
         <form method="post" action="<?= site_url('admin/login') ?>">
             <?= csrf_field() ?>
@@ -54,6 +44,13 @@
             </button>
         </form>
     </div>
+    <script src="<?= vendor_url('sweetalert2/js/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/swal-helper.js') ?>"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSwalFlash();
+        });
+    </script>
 </body>
 
 </html>

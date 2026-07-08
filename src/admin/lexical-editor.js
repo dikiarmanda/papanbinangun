@@ -458,8 +458,19 @@ function createFullToolbar(editor, ctx) {
     htmlToggle.classList.remove("is-active");
   });
 
-  clearAllBtn.addEventListener("click", () => {
-    if (!window.confirm("Kosongkan seluruh isi editor?")) return;
+  clearAllBtn.addEventListener("click", async () => {
+    const confirmed = window.SwalApp
+      ? (
+          await window.SwalApp.confirm({
+            title: "Kosongkan editor?",
+            text: "Seluruh isi editor akan dihapus.",
+            icon: "warning",
+            confirmButtonText: "Ya, kosongkan",
+          })
+        ).isConfirmed
+      : window.confirm("Kosongkan seluruh isi editor?");
+
+    if (!confirmed) return;
     editor.update(() => $getRoot().clear());
   });
 

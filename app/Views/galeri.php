@@ -24,16 +24,33 @@
         <?php if (empty($galeri)): ?>
             <p class="text-center text-muted">Belum ada foto di galeri.</p>
         <?php else: ?>
-            <div class="gallery-grid">
-                <?php foreach ($galeri as $g): ?>
-                <a href="<?= upload_url($g['gambar']) ?>" class="gallery-item" data-lightbox title="<?= esc($g['judul'] ?? '') ?>">
-                    <img src="<?= upload_url($g['gambar']) ?>" alt="<?= esc($g['judul'] ?? 'Galeri') ?>" loading="lazy">
-                    <?php if (! empty($g['judul'])): ?>
-                        <span class="gallery-caption"><?= esc($g['judul']) ?></span>
-                    <?php endif; ?>
-                </a>
+            <div class="gallery-grid" id="galleryGrid"
+                data-initial="<?= (int) $galeri_limit_initial ?>"
+                data-step="<?= (int) $galeri_limit_step ?>">
+                <?php foreach ($galeri as $index => $g): ?>
+                    <a href="<?= upload_url($g['gambar']) ?>"
+                        class="gallery-item<?= $index >= $galeri_limit_initial ? ' is-gallery-hidden' : '' ?>"
+                        data-lightbox title="<?= esc($g['judul'] ?? '') ?>">
+                        <img src="<?= upload_url($g['gambar']) ?>" alt="<?= esc($g['judul'] ?? 'Galeri') ?>" loading="lazy">
+                        <?php if (! empty($g['judul'])): ?>
+                            <span class="gallery-caption"><?= esc($g['judul']) ?></span>
+                        <?php endif; ?>
+                    </a>
                 <?php endforeach; ?>
             </div>
+
+            <?php if ($galeri_total > $galeri_limit_initial): ?>
+                <div class="gallery-load-more-wrap">
+                    <button type="button" class="btn btn-outline gallery-load-more" id="galleryLoadMore"
+                        aria-controls="galleryGrid">
+                        <i class="fa-solid fa-images"></i>
+                        Muat Lebih
+                        <span class="gallery-load-more-count">
+                            (<?= (int) ($galeri_total - $galeri_limit_initial) ?> foto)
+                        </span>
+                    </button>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </section>

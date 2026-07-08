@@ -34,8 +34,11 @@
                                 <i class="fa-solid fa-pen"></i> Edit
                             </a>
                             <?php if ($row['canDelete']): ?>
-                                <form method="post" action="<?= esc($row['deleteUrl']) ?>" class="inline-form"
-                                    onsubmit="return confirm('Hapus akun ini?')">
+                                <form method="post" action="<?= esc($row['deleteUrl']) ?>" class="inline-form js-swal-confirm"
+                                    data-swal-title="Hapus akun ini?"
+                                    data-swal-text="Akun admin yang dihapus tidak dapat dikembalikan."
+                                    data-swal-icon="warning"
+                                    data-swal-confirm="Ya, Hapus">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <i class="fa-solid fa-trash"></i> Hapus

@@ -79,12 +79,16 @@
                                     data-update-url="<?= esc($item['updateUrl'], 'attr') ?>">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
-                                <button type="button" class="galeri-card-btn galeri-delete-btn" title="Hapus foto"
-                                    data-id="<?= (int) $item['id'] ?>" data-judul="<?= esc($item['judul'], 'attr') ?>"
-                                    data-gambar-url="<?= esc($item['gambarUrl'], 'attr') ?>"
-                                    data-delete-url="<?= esc($item['deleteUrl'], 'attr') ?>">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                <form method="post" action="<?= esc($item['deleteUrl']) ?>" class="galeri-delete-form js-swal-confirm"
+                                    data-swal-title="Hapus foto ini?"
+                                    data-swal-text="Foto &quot;<?= esc($item['judul'], 'attr') ?>&quot; akan dihapus permanen."
+                                    data-swal-icon="warning"
+                                    data-swal-confirm="Ya, Hapus">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="galeri-card-btn galeri-delete-btn" title="Hapus foto">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         <div class="galeri-card-body">
@@ -148,34 +152,6 @@
                 <button type="button" class="btn btn-outline" data-modal-close>Batal</button>
                 <button type="submit" class="btn btn-primary">
                     <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="admin-modal" id="galeriDeleteModal" hidden aria-hidden="true">
-    <div class="admin-modal-backdrop" data-modal-close></div>
-    <div class="admin-modal-dialog admin-modal-sm" role="dialog" aria-modal="true" aria-labelledby="galeriDeleteTitle">
-        <div class="admin-modal-header">
-            <h3 id="galeriDeleteTitle"><i class="fa-solid fa-trash"></i> Hapus Foto</h3>
-            <button type="button" class="admin-modal-close" data-modal-close aria-label="Tutup">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <form method="post" id="galeriDeleteForm" action="">
-            <?= csrf_field() ?>
-            <div class="admin-modal-body galeri-delete-body">
-                <div class="galeri-delete-preview">
-                    <img id="galeriDeletePreview" src="" alt="">
-                </div>
-                <p>Anda yakin ingin menghapus foto <strong id="galeriDeleteLabel"></strong>? Tindakan ini tidak dapat
-                    dibatalkan.</p>
-            </div>
-            <div class="admin-modal-footer">
-                <button type="button" class="btn btn-outline" data-modal-close>Batal</button>
-                <button type="submit" class="btn btn-danger">
-                    <i class="fa-solid fa-trash"></i> Ya, Hapus
                 </button>
             </div>
         </form>

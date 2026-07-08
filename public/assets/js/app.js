@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroBanner();
   initTestimonialCarousel();
   initLightbox();
+  initGalleryLoadMore();
 });
 
 function initMobileNav() {
@@ -282,5 +283,40 @@ function initLightbox() {
   });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !lightbox.hidden) close();
+  });
+}
+
+function initGalleryLoadMore() {
+  const grid = document.getElementById("galleryGrid");
+  const btn = document.getElementById("galleryLoadMore");
+  if (!grid || !btn) return;
+
+  const step = parseInt(grid.dataset.step || "8", 10);
+
+  const hiddenItems = () => grid.querySelectorAll(".gallery-item.is-gallery-hidden");
+
+  const updateButton = () => {
+    const remaining = hiddenItems().length;
+    const countEl = btn.querySelector(".gallery-load-more-count");
+
+    if (remaining === 0) {
+      btn.closest(".gallery-load-more-wrap")?.remove();
+      return;
+    }
+
+    if (countEl) {
+      countEl.textContent = `(${remaining} foto)`;
+    }
+  };
+
+  btn.addEventListener("click", () => {
+    Array.from(hiddenItems())
+      .slice(0, step)
+      .forEach((item) => {
+        item.classList.remove("is-gallery-hidden");
+        item.classList.add("is-gallery-reveal");
+      });
+
+    updateButton();
   });
 }

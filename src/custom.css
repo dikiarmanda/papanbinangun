@@ -1125,6 +1125,34 @@ section[id] {
   font-size: 0.8rem;
   padding: 0.4rem 0.6rem;
 }
+.gallery-item.is-gallery-hidden {
+  display: none;
+}
+.gallery-item.is-gallery-reveal {
+  animation: galleryReveal 0.35s ease;
+}
+@keyframes galleryReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.gallery-load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.gallery-load-more {
+  gap: 0.45rem;
+}
+.gallery-load-more-count {
+  font-size: 0.88em;
+  opacity: 0.85;
+}
 
 .lightbox {
   position: fixed;

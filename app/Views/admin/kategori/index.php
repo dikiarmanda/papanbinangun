@@ -93,8 +93,11 @@
                                                 <i class="fa-solid fa-floppy-disk"></i> Simpan
                                             </button>
                                         </form>
-                                        <form method="post" action="<?= esc($row['deleteUrl']) ?>" class="kategori-delete-form"
-                                            onsubmit="return confirm('Hapus kategori ini?')">
+                                        <form method="post" action="<?= esc($row['deleteUrl']) ?>" class="kategori-delete-form js-swal-confirm"
+                                            data-swal-title="Hapus kategori ini?"
+                                            data-swal-text="Kategori yang masih dipakai tidak dapat dihapus."
+                                            data-swal-icon="warning"
+                                            data-swal-confirm="Ya, Hapus">
                                             <?= csrf_field() ?>
                                             <button type="submit" class="btn btn-sm btn-danger">
                                                 <i class="fa-solid fa-trash"></i>

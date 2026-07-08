@@ -101,8 +101,11 @@
                                     </span>
                                 </div>
                             </form>
-                            <form method="post" action="<?= esc($item['deleteUrl']) ?>"
-                                onsubmit="return confirm('Hapus banner ini?')">
+                            <form method="post" action="<?= esc($item['deleteUrl']) ?>" class="js-swal-confirm"
+                                data-swal-title="Hapus banner ini?"
+                                data-swal-text="Banner yang dihapus tidak dapat dikembalikan."
+                                data-swal-icon="warning"
+                                data-swal-confirm="Ya, Hapus">
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     <i class="fa-solid fa-trash"></i> Hapus

@@ -39,8 +39,11 @@
                                 <a href="<?= esc($row['editUrl']) ?>" class="btn btn-sm">
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </a>
-                                <form method="post" action="<?= esc($row['deleteUrl']) ?>" class="inline-form"
-                                    onsubmit="return confirm('Hapus destinasi ini?')">
+                                <form method="post" action="<?= esc($row['deleteUrl']) ?>" class="inline-form js-swal-confirm"
+                                    data-swal-title="Hapus destinasi ini?"
+                                    data-swal-text="Destinasi wisata yang dihapus tidak dapat dikembalikan."
+                                    data-swal-icon="warning"
+                                    data-swal-confirm="Ya, Hapus">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <i class="fa-solid fa-trash"></i> Hapus

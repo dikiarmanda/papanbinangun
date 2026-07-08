@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('select2/css/select2.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('dropify/css/dropify.min.css') ?>">
+    <link rel="stylesheet" href="<?= vendor_url('sweetalert2/css/sweetalert2.min.css') ?>">
     <link rel="stylesheet" href="<?= asset_url('assets/css/admin.css') ?>">
 </head>
 
@@ -89,23 +90,14 @@
                 </div>
             </header>
 
-            <?php if (session()->getFlashdata('success')): ?>
-                <div class="alert alert-success" role="alert">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <span><?= esc(session()->getFlashdata('success')) ?></span>
-                </div>
-            <?php endif; ?>
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-error" role="alert">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    <span><?= esc(session()->getFlashdata('error')) ?></span>
-                </div>
-            <?php endif; ?>
+            <?= $this->include('partials/swal_flash') ?>
 
             <?= $this->renderSection('content') ?>
         </main>
     </div>
     <script src="<?= vendor_url('jquery/jquery.min.js') ?>"></script>
+    <script src="<?= vendor_url('sweetalert2/js/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/swal-helper.js') ?>"></script>
     <script src="<?= vendor_url('select2/js/select2.min.js') ?>"></script>
     <script src="<?= vendor_url('dropify/js/dropify.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/lexical-editor.js') ?>"></script>

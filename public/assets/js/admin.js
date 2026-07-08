@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   initAdminNav();
-  initAlerts();
+  initSwalFlash();
+  initSwalConfirm();
   initSelect2();
   initDropify();
   LexicalAdminEditor?.initLexicalEditors?.();
@@ -133,13 +134,7 @@ function initAdminNav() {
 }
 
 function initAlerts() {
-  document.querySelectorAll(".alert").forEach((el) => {
-    setTimeout(() => {
-      el.style.opacity = "0";
-      el.style.transition = "opacity .4s ease";
-      setTimeout(() => el.remove(), 400);
-    }, 5000);
-  });
+  initSwalFlash();
 }
 
 function slugify(text) {
@@ -255,8 +250,7 @@ function initFasilitasEditor() {
 
 function initGaleriModals() {
   const editModal = document.getElementById("galeriEditModal");
-  const deleteModal = document.getElementById("galeriDeleteModal");
-  if (!editModal && !deleteModal) return;
+  if (!editModal) return;
 
   const $ = window.jQuery;
 
@@ -322,23 +316,6 @@ function initGaleriModals() {
 
       openModal(editModal);
       setTimeout(() => judulInput.focus(), 120);
-    });
-  });
-
-  document.querySelectorAll(".galeri-delete-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const form = document.getElementById("galeriDeleteForm");
-      const preview = document.getElementById("galeriDeletePreview");
-      const label = document.getElementById("galeriDeleteLabel");
-
-      if (!form || !preview || !label) return;
-
-      form.action = btn.dataset.deleteUrl || "";
-      preview.src = btn.dataset.gambarUrl || "";
-      preview.alt = btn.dataset.judul || "Foto galeri";
-      label.textContent = btn.dataset.judul || "ini";
-
-      openModal(deleteModal);
     });
   });
 }

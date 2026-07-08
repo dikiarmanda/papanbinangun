@@ -6,6 +6,9 @@ use CodeIgniter\Model;
 
 class GaleriModel extends Model
 {
+    public const PUBLIC_INITIAL_LIMIT = 12;
+    public const PUBLIC_LOAD_MORE_STEP = 8;
+
     protected $table            = 'galeri';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -44,6 +47,30 @@ class GaleriModel extends Model
                 ? implode(', ', array_column($list, 'nama'))
                 : '-';
         }
+
+        return $rows;
+    }
+
+    /**
+     * Daftar galeri untuk halaman publik — urutan acak.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function getPublicGallery(?string $kategoriSlug = null): array
+    {
+        $builder = $this->select('galeri.id, galeri.judul, galeri.gambar');
+
+        if ($kategoriSlug !== null && $kategoriSlug !== '') {
+            $sub = $this->db->table('galeri_kategori gk')
+                ->select('gk.galeri_id')
+                ->join('kategori_artikel ka', 'ka.id = gk.kategori_id')
+                ->where('ka.slug', $kategoriSlug);
+
+            $builder->whereIn('galeri.id', $sub);
+        }
+
+        $rows = $builder->findAll();
+        shuffle($rows);
 
         return $rows;
     }

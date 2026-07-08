@@ -1491,6 +1491,42 @@ body.modal-open {
   }
 }
 
+.galeri-delete-form {
+  display: inline;
+  margin: 0;
+}
+.galeri-card-overlay .galeri-delete-form {
+  display: inline-flex;
+}
+
+/* SweetAlert2 theme */
+.swal2-popup {
+  font-family: "Lora", Georgia, serif;
+  border-radius: 14px;
+  color: var(--text, #2c2118);
+}
+.swal2-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.45rem;
+  color: var(--deep, #4a3222);
+}
+.swal2-html-container,
+.swal2-content {
+  font-size: 0.92rem;
+  color: var(--muted, #7a6a58);
+}
+.swal2-styled.swal2-confirm {
+  border-radius: 8px;
+  font-weight: 600;
+}
+.swal2-styled.swal2-cancel {
+  border-radius: 8px;
+}
+.swal2-toast {
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg, 0 12px 32px rgba(74, 50, 34, 0.12));
+}
+
 /* Login */
 .login-body {
   min-height: 100vh;

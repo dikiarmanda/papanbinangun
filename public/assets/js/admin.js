@@ -6,17 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
   LexicalAdminEditor?.initLexicalEditors?.();
   initSlugGenerator();
   initFasilitasEditor();
+  initGaleriModals();
 });
 
 const SELECT2_MIN_OPTIONS = 8;
 
 function getSelect2Options($el) {
+  const isMultiple = $el.prop("multiple") || $el.hasClass("select2-multiple");
   const placeholder = $el.data("placeholder") || $el.find("option[value='']").first().text() || "— Pilih —";
 
   return {
     width: "100%",
     placeholder,
     allowClear: true,
+    multiple: isMultiple,
     dropdownParent: jQuery("body"),
     language: {
       noResults: () => "Tidak ditemukan",
@@ -29,6 +32,7 @@ function getSelect2Options($el) {
 function shouldUseSelect2(select) {
   if (select.classList.contains("no-select2")) return false;
   if (select.classList.contains("select2-field")) return true;
+  if (select.classList.contains("select2-multiple")) return true;
   return select.options.length >= SELECT2_MIN_OPTIONS;
 }
 
@@ -246,5 +250,95 @@ function initFasilitasEditor() {
     initSelect2(select);
     bindRow(row);
     row.querySelector('input[name="fasilitas_nama[]"]')?.focus();
+  });
+}
+
+function initGaleriModals() {
+  const editModal = document.getElementById("galeriEditModal");
+  const deleteModal = document.getElementById("galeriDeleteModal");
+  if (!editModal && !deleteModal) return;
+
+  const $ = window.jQuery;
+
+  const openModal = (modal) => {
+    if (!modal) return;
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    modal.querySelector("[data-modal-close]")?.focus();
+  };
+
+  const closeModal = (modal) => {
+    if (!modal) return;
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    if (!document.querySelector(".admin-modal:not([hidden])")) {
+      document.body.classList.remove("modal-open");
+    }
+  };
+
+  document.querySelectorAll("[data-modal-close]").forEach((el) => {
+    el.addEventListener("click", () => {
+      closeModal(el.closest(".admin-modal"));
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    document.querySelectorAll(".admin-modal:not([hidden])").forEach((modal) => closeModal(modal));
+  });
+
+  document.querySelectorAll(".galeri-edit-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const form = document.getElementById("galeriEditForm");
+      const preview = document.getElementById("galeriEditPreview");
+      const judulInput = document.getElementById("galeriEditJudul");
+      const kategoriSelect = document.getElementById("galeriEditKategori");
+      const wisataSelect = document.getElementById("galeriEditWisata");
+
+      if (!form || !preview || !judulInput || !kategoriSelect || !wisataSelect) return;
+
+      form.action = btn.dataset.updateUrl || "";
+      preview.src = btn.dataset.gambarUrl || "";
+      preview.alt = btn.dataset.judul || "Foto galeri";
+      judulInput.value = btn.dataset.judul || "";
+
+      let kategoriIds = [];
+      try {
+        kategoriIds = JSON.parse(btn.dataset.kategoriIds || "[]");
+      } catch {
+        kategoriIds = [];
+      }
+
+      if ($ && $.fn.select2) {
+        $(kategoriSelect).val(kategoriIds.map(String)).trigger("change");
+        $(wisataSelect).val(btn.dataset.wisataId || "").trigger("change");
+      } else {
+        Array.from(kategoriSelect.options).forEach((opt) => {
+          opt.selected = kategoriIds.map(String).includes(opt.value);
+        });
+        wisataSelect.value = btn.dataset.wisataId || "";
+      }
+
+      openModal(editModal);
+      setTimeout(() => judulInput.focus(), 120);
+    });
+  });
+
+  document.querySelectorAll(".galeri-delete-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const form = document.getElementById("galeriDeleteForm");
+      const preview = document.getElementById("galeriDeletePreview");
+      const label = document.getElementById("galeriDeleteLabel");
+
+      if (!form || !preview || !label) return;
+
+      form.action = btn.dataset.deleteUrl || "";
+      preview.src = btn.dataset.gambarUrl || "";
+      preview.alt = btn.dataset.judul || "Foto galeri";
+      label.textContent = btn.dataset.judul || "ini";
+
+      openModal(deleteModal);
+    });
   });
 }

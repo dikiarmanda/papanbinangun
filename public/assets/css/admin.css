@@ -1192,6 +1192,305 @@ textarea.lexical-source {
   margin-bottom: 0.5rem;
 }
 
+/* Galeri admin — layout & modal */
+.galeri-admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.galeri-upload-card .card-header h2 {
+  margin: 0;
+}
+.galeri-upload-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.galeri-upload-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.galeri-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.galeri-list-header h2 {
+  margin: 0;
+}
+.galeri-count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--sepia);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+}
+.galeri-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  padding: 0.25rem 0 0.5rem;
+}
+.galeri-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.galeri-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+.galeri-card-media {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--cream);
+}
+.galeri-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.galeri-card:hover .galeri-card-media img {
+  transform: scale(1.05);
+}
+.galeri-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: linear-gradient(180deg, rgba(45, 36, 28, 0.05) 0%, rgba(45, 36, 28, 0.72) 100%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.galeri-card:hover .galeri-card-overlay,
+.galeri-card:focus-within .galeri-card-overlay {
+  opacity: 1;
+}
+.galeri-card-btn {
+  width: 2.35rem;
+  height: 2.35rem;
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+.galeri-card-btn:hover {
+  transform: scale(1.08);
+}
+.galeri-edit-btn {
+  background: #fff;
+  color: var(--primary);
+}
+.galeri-delete-btn {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--error);
+}
+.galeri-card-body {
+  padding: 0.7rem 0.8rem 0.85rem;
+}
+.galeri-card-title {
+  display: block;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.galeri-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.badge-soft {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--cream);
+  color: var(--sepia);
+  border: 1px solid var(--border);
+}
+
+/* Admin modal */
+body.modal-open {
+  overflow: hidden;
+}
+.admin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.admin-modal[hidden] {
+  display: none !important;
+}
+.select2-container--open {
+  z-index: 1300;
+}
+.admin-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 24, 18, 0.55);
+  backdrop-filter: blur(3px);
+}
+.admin-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(30, 24, 18, 0.22);
+  overflow: hidden;
+  animation: modalIn 0.22s ease;
+}
+.admin-modal-lg {
+  max-width: 560px;
+}
+.admin-modal-sm {
+  max-width: 400px;
+}
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.admin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+}
+.admin-modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.admin-modal-close {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.admin-modal-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text);
+}
+.admin-modal-body {
+  padding: 1.15rem;
+}
+.admin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 0.85rem 1.15rem 1.15rem;
+  border-top: 1px solid var(--border);
+  background: #faf8f5;
+}
+.galeri-edit-body {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.15rem;
+  align-items: start;
+}
+.galeri-edit-preview {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 1;
+  background: var(--cream);
+}
+.galeri-edit-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.galeri-delete-body {
+  text-align: center;
+}
+.galeri-delete-preview {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.galeri-delete-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.galeri-delete-body p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.galeri-delete-body strong {
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .galeri-upload-grid {
+    grid-template-columns: 1fr;
+  }
+  .galeri-edit-body {
+    grid-template-columns: 1fr;
+  }
+  .galeri-edit-preview {
+    max-width: 180px;
+    margin: 0 auto;
+  }
+  .galeri-admin-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
 /* Login */
 .login-body {
   min-height: 100vh;

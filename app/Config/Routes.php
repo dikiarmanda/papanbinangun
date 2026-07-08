@@ -51,6 +51,7 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     // Galeri
     $routes->get('galeri', 'Admin\GaleriAdminController::index');
     $routes->post('galeri/store', 'Admin\GaleriAdminController::store');
+    $routes->post('galeri/update/(:num)', 'Admin\GaleriAdminController::update/$1');
     $routes->post('galeri/delete/(:num)', 'Admin\GaleriAdminController::delete/$1');
 
     // Banner beranda

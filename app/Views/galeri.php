@@ -13,8 +13,11 @@
     <div class="container">
         <div class="filter-bar">
             <a href="<?= site_url('galeri') ?>" class="<?= empty($kategori_aktif) ? 'active' : '' ?>">Semua</a>
-            <?php foreach (['alam', 'budaya', 'kuliner', 'kerajinan', 'lainnya'] as $kat): ?>
-                <a href="<?= site_url('galeri?kategori=' . $kat) ?>" class="<?= $kategori_aktif === $kat ? 'active' : '' ?>"><?= ucfirst($kat) ?></a>
+            <?php foreach ($kategori_list as $kat): ?>
+                <a href="<?= site_url('galeri?kategori=' . esc($kat['slug'], 'url')) ?>"
+                    class="<?= $kategori_aktif === $kat['slug'] ? 'active' : '' ?>">
+                    <?= esc($kat['nama']) ?>
+                </a>
             <?php endforeach; ?>
         </div>
 

@@ -169,16 +169,26 @@ if (!function_exists('admin_user_index_rows')) {
     }
 }
 
-if (!function_exists('admin_galeri_kategori_options')) {
-    function admin_galeri_kategori_options(): array
+if (!function_exists('admin_galeri_index_items')) {
+    function admin_galeri_index_items(array $galeri): array
     {
-        return admin_select_options([
-            'alam' => 'Alam',
-            'budaya' => 'Budaya',
-            'kuliner' => 'Kuliner',
-            'kerajinan' => 'Kerajinan',
-            'lainnya' => 'Lainnya',
-        ], 'alam');
+        return array_map(static function (array $row) {
+            $kategoriList = $row['kategori_list'] ?? [];
+            $kategoriIds = $row['kategori_ids'] ?? array_column($kategoriList, 'id');
+            $kategoriNames = array_column($kategoriList, 'nama');
+
+            return [
+                'id' => (int) $row['id'],
+                'gambarUrl' => upload_url($row['gambar']),
+                'judul' => $row['judul'] ?: 'Tanpa judul',
+                'kategoriIds' => array_map('intval', $kategoriIds),
+                'kategoriNames' => $kategoriNames,
+                'kategoriNama' => $row['kategori_nama'] ?? ( $kategoriNames !== [] ? implode(', ', $kategoriNames) : '-'),
+                'wisataId' => $row['wisata_id'] ?? '',
+                'updateUrl' => site_url('admin/galeri/update/' . $row['id']),
+                'deleteUrl' => site_url('admin/galeri/delete/' . $row['id']),
+            ];
+        }, $galeri);
     }
 }
 
@@ -201,35 +211,36 @@ if (!function_exists('admin_wisata_select_options')) {
 }
 
 if (!function_exists('admin_kategori_select_options')) {
-    function admin_kategori_select_options(array $kategori, string $selected = ''): array
+    /**
+     * @param array<int|string>|string $selected
+     *
+     * @return list<array{value: string, label: string, selected: bool}>
+     */
+    function admin_kategori_select_options(array $kategori, array|string $selected = '', bool $multiple = false): array
     {
-        $options = [['value' => '', 'label' => '— Pilih —', 'selected' => $selected === '']];
+        $selectedIds = is_array($selected)
+            ? array_map('strval', $selected)
+            : ($selected !== '' ? [(string) $selected] : []);
+
+        $options = [];
+        if (! $multiple) {
+            $options[] = [
+                'value' => '',
+                'label' => '— Pilih —',
+                'selected' => $selectedIds === [],
+            ];
+        }
 
         foreach ($kategori as $row) {
             $value = (string) $row['id'];
             $options[] = [
                 'value' => $value,
                 'label' => (string) $row['nama'],
-                'selected' => $value === $selected,
+                'selected' => in_array($value, $selectedIds, true),
             ];
         }
 
         return $options;
-    }
-}
-
-if (!function_exists('admin_galeri_index_items')) {
-    function admin_galeri_index_items(array $galeri): array
-    {
-        return array_map(static function (array $row) {
-            return [
-                'id' => (int) $row['id'],
-                'gambarUrl' => upload_url($row['gambar']),
-                'judul' => $row['judul'] ?: 'Tanpa judul',
-                'kategori' => $row['kategori'],
-                'deleteUrl' => site_url('admin/galeri/delete/' . $row['id']),
-            ];
-        }, $galeri);
     }
 }
 

@@ -1,0 +1,7 @@
+# Arahkan semua request ke folder public/ (jika document root belum di-set ke public/)
+<IfModule mod_rewrite.c>
+	Options +FollowSymlinks
+	RewriteEngine On
+	RewriteRule ^$ public/ [L]
+	RewriteRule (.*) public/$1 [L]
+</IfModule>

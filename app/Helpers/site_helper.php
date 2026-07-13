@@ -136,12 +136,13 @@ if (!function_exists('wa_link')) {
 }
 
 if (!function_exists('brand_favicon')) {
-    function brand_favicon(string $type = 'svg'): string
+    function brand_favicon(string $type = 'ico'): string
     {
         return match ($type) {
-            'png' => base_url('assets/images/favicon-32.png'),
-            'apple' => base_url('assets/images/apple-touch-icon.png'),
-            default => base_url('assets/images/favicon.svg'),
+            'png16' => asset_url('assets/images/favicon-16x16.png'),
+            'png'   => asset_url('assets/images/favicon-32x32.png'),
+            'apple' => asset_url('assets/images/apple-touch-icon.png'),
+            default => asset_url('assets/images/favicon.ico'),
         };
     }
 }

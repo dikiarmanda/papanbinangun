@@ -66,17 +66,17 @@ class Home extends BaseController
         return [
             [
                 'nama' => 'Pemerintah Kabupaten Pasuruan',
-                'logo' => 'img/support/pasuruan.png',
+                'logo' => 'assets/images/support/pasuruan.png',
                 'url' => 'https://www.pasuruankab.go.id/',
             ],
             [
                 'nama' => 'Diktisaintek Berdampak',
-                'logo' => 'img/support/diktisaintek.png',
+                'logo' => 'assets/images/support/diktisaintek.png',
                 'url' => 'https://kemdiktisaintek.go.id/library/book/diktisaintek-berdampak',
             ],
             [
                 'nama' => 'Universitas Muhammadiyah Sidoarjo',
-                'logo' => 'img/support/umsida-brand.png',
+                'logo' => 'assets/images/support/umsida-brand.png',
                 'url' => 'https://umsida.ac.id/',
             ],
         ];
@@ -88,37 +88,37 @@ class Home extends BaseController
             [
                 'nama' => 'Maulidia Zahro',
                 'teks' => 'Wisata yg recomended. Tiket @5 k per orang, renang @5 k per orang. Minuman 5-10rb an, makanan ada indomie. Tracking kids friendly ke air terjun kurleb sekitar 10-15 mnt. Byk kamar mandi. Byk lesehan.',
-                'foto' => base_url('img/testimonials/1.png'),
+                'foto' => asset_url('assets/images/testimonials/1.png'),
                 'rating' => 5,
             ],
             [
                 'nama' => 'Ema Rahma',
                 'teks' => 'Tempat wisata yg sangat murah meriah HTM cuma 5k aja udah bisa menikmati air terjun yg indah udah bisa healing di sini selai air terjun di pintu masuk juga ada kolam renangnya. AQ kesini udah di jam 4 sorean udah mau tutup jadi pengunjungnya udah tinggal beberap aja.',
-                'foto' => base_url('img/testimonials/2.png'),
+                'foto' => asset_url('assets/images/testimonials/2.png'),
                 'rating' => 5,
             ],
             [
                 'nama' => 'Indah Bonita',
                 'teks' => 'Masyaallah. Nemuin tempat hidden gemm yang murceee sejukk nyamannn. Semogaaa makinn rameeee pengunjung 🍃😍',
-                'foto' => base_url('img/testimonials/3.png'),
+                'foto' => asset_url('assets/images/testimonials/3.png'),
                 'rating' => 5,
             ],
             [
                 'nama' => 'Selly Rizkiyah',
                 'teks' => 'Wisata yg underrated kayaknya, krn masih sepi, yg jual di dalem jg cuma satu. Airnya jernih, dingin, banyak muaranya, ada mushollanya. Cuma mungkin bs dikembangkan lagi. Tiketnya 5 rb, wajar aja. Overall okee lah.',
-                'foto' => base_url('img/testimonials/4.png'),
+                'foto' => asset_url('assets/images/testimonials/4.png'),
                 'rating' => 5,
             ],
             [
                 'nama' => 'Fany Wardana',
                 'teks' => 'Tempat nya bagus asri... Cocok untuk yang ingin menikmati suasana pedesaan dengan bermain air sungai. Sistem jual beli disini yang menarik, karena transaksinya menggunakan kepingan bambu, satu keping senilai 2rb rupiah, makanan tradisional, murah meriah. Disediakan tikar bambu untuk tempat duduk, disarankan membawa sendiri alas tikar untuk jaga-jaga apabila tikar yang disediakan habis. Ada beberapa spot air terjun.',
-                'foto' => base_url('img/testimonials/5.png'),
+                'foto' => asset_url('assets/images/testimonials/5.png'),
                 'rating' => 5,
             ],
             [
                 'nama' => 'Santynov19',
                 'teks' => 'Banyak di jual makanan tradisional, alat jual beli pake koin, tempat nya sejuk segar rindang, ada sungai.',
-                'foto' => base_url('img/testimonials/6.png'),
+                'foto' => asset_url('assets/images/testimonials/6.png'),
                 'rating' => 5,
             ],
         ];

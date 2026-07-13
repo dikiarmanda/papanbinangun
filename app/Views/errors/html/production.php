@@ -1,25 +1,10 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex">
+<?php
 
-    <title><?= lang('Errors.whoops') ?></title>
+$statusCode  = '500';
+$pageTitle   = 'Terjadi Kesalahan';
+$headline    = 'Terjadi Kesalahan';
+$icon        = 'fa-triangle-exclamation';
+$description = 'Maaf, terjadi gangguan pada server. Tim kami sedang menanganinya. Silakan coba beberapa saat lagi atau kembali ke beranda.';
+$detailHtml  = null;
 
-    <style>
-        <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'debug.css')) ?>
-    </style>
-</head>
-<body>
-
-    <div class="container text-center">
-
-        <h1 class="headline"><?= lang('Errors.whoops') ?></h1>
-
-        <p class="lead"><?= lang('Errors.weHitASnag') ?></p>
-
-    </div>
-
-</body>
-
-</html>
+include __DIR__ . '/public_layout.php';

@@ -12,9 +12,7 @@
     ?>
     <title><?= esc($pageTitle) ?></title>
     <meta name="description" content="<?= esc($desc) ?>">
-    <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
-    <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
-    <link rel="apple-touch-icon" href="<?= brand_favicon('apple') ?>" sizes="180x180">
+    <?= $this->include('partials/favicon') ?>
     <meta property="og:title" content="<?= esc($pageTitle) ?>">
     <meta property="og:description" content="<?= esc($desc) ?>">
     <meta property="og:image" content="<?= esc($ogImage) ?>">

@@ -13,8 +13,8 @@ $routes->get('artikel', 'ArtikelController::index');
 $routes->get('artikel/(:segment)', 'ArtikelController::detail/$1');
 $routes->get('galeri', 'GaleriController::index');
 $routes->get('kontak', 'KontakController::index');
-$routes->get('sitemap.xml', 'SitemapController::index');
-$routes->get('robots.txt', 'SitemapController::robots');
+$routes->get('sitemap\.xml', 'SitemapController::index');
+$routes->get('robots\.txt', 'SitemapController::robots');
 
 // Admin auth (tanpa filter)
 $routes->get('admin/login', 'Admin\AuthController::login');

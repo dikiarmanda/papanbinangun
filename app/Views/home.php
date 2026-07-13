@@ -240,7 +240,7 @@
             <?php foreach ($supporters as $s): ?>
                 <a href="<?= esc($s['url'], 'attr') ?>" class="supporter-link" title="<?= esc($s['nama']) ?>"
                     target="_blank" rel="noopener noreferrer">
-                    <img src="<?= base_url($s['logo']) ?>" alt="<?= esc($s['nama']) ?>" loading="lazy">
+                    <img src="<?= asset_url($s['logo']) ?>" alt="<?= esc($s['nama']) ?>" loading="lazy">
                 </a>
             <?php endforeach; ?>
         </div>

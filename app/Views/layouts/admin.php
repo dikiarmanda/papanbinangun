@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Admin') ?> — Panel Admin</title>
-    <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
-    <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
+    <?= $this->include('partials/favicon') ?>
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('select2/css/select2.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('dropify/css/dropify.min.css') ?>">

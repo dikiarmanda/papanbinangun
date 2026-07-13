@@ -37,9 +37,27 @@ class SitemapController extends BaseController
             ];
         }
 
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+        foreach ($urls as $url) {
+            $xml .= "  <url>\n";
+            $xml .= '    <loc>' . esc($url['loc']) . "</loc>\n";
+
+            if (! empty($url['lastmod'])) {
+                $xml .= '    <lastmod>' . esc($url['lastmod']) . "</lastmod>\n";
+            }
+
+            $xml .= '    <priority>' . esc($url['priority'] ?? '0.5') . "</priority>\n";
+            $xml .= "  </url>\n";
+        }
+
+        $xml .= '</urlset>';
+
         return $this->response
-            ->setHeader('Content-Type', 'application/xml')
-            ->setBody(view('sitemap', ['urls' => $urls]));
+            ->setStatusCode(200)
+            ->setContentType('application/xml')
+            ->setBody($xml);
     }
 
     public function robots()
@@ -47,7 +65,8 @@ class SitemapController extends BaseController
         $content = "User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: " . site_url('sitemap.xml') . "\n";
 
         return $this->response
-            ->setHeader('Content-Type', 'text/plain')
+            ->setStatusCode(200)
+            ->setContentType('text/plain')
             ->setBody($content);
     }
 }

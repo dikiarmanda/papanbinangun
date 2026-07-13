@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin — <?= esc(pengaturan()['nama_desa'] ?? 'Wisata Binangun') ?></title>
-    <link rel="icon" href="<?= brand_favicon() ?>" type="image/svg+xml">
-    <link rel="icon" href="<?= brand_favicon('png') ?>" type="image/png" sizes="32x32">
+    <?= $this->include('partials/favicon') ?>
     <link rel="stylesheet" href="<?= vendor_url('fontawesome/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= vendor_url('sweetalert2/css/sweetalert2.min.css') ?>">
     <link rel="stylesheet" href="<?= asset_url('assets/css/admin.css') ?>">

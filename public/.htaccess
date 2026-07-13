@@ -20,6 +20,13 @@ Options -Indexes
 
 	# RewriteBase dihapus agar Apache auto-detect (production & XAMPP subfolder)
 
+	# Favicon default browser ke lokasi baru
+	RewriteRule ^favicon\.ico$ assets/images/favicon.ico [L,NC]
+
+	# SEO: pastikan sitemap & robots selalu diarahkan ke front controller
+	RewriteRule ^sitemap\.xml$ index.php/sitemap.xml [L,NC,QSA]
+	RewriteRule ^robots\.txt$ index.php/robots.txt [L,NC,QSA]
+
 	# Redirect Trailing Slashes...
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_URI} (.+)/$

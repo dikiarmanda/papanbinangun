@@ -721,6 +721,33 @@ section[id] {
   align-self: flex-start;
   margin-top: auto;
 }
+.article-grid-image-focus .article-thumb {
+  overflow: hidden;
+}
+.article-grid-image-focus .article-thumb img {
+  aspect-ratio: 4/3;
+  transition: transform 0.4s ease;
+}
+.article-grid-image-focus .article-card:hover .article-thumb img {
+  transform: scale(1.04);
+}
+.article-grid-image-focus .article-body {
+  padding: 1rem 1.15rem 1.15rem;
+}
+.article-grid-image-focus .article-body h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.article-grid-image-focus .article-body p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
 .badge-gold {
   display: inline-block;
   background: var(--gold);

@@ -154,7 +154,7 @@
         <?php if (empty($artikel)): ?>
             <p class="text-center text-muted">Belum ada artikel.</p>
         <?php else: ?>
-            <div class="article-grid">
+            <div class="article-grid article-grid-image-focus">
                 <?php foreach ($artikel as $i => $a): ?>
                     <article class="article-card">
                         <a href="<?= site_url('artikel/' . $a['slug']) ?>" class="card-media">

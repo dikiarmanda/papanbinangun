@@ -30,7 +30,7 @@
 
         <?php if (!empty($fasilitas)): ?>
             <div class="wisata-fasilitas mt-lg">
-                <h3><i class="fa-solid fa-list-check"></i> Fasilitas</h3>
+                <h3 class="detail-section-title"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Fasilitas</h3>
                 <ul class="wisata-fasilitas-grid">
                     <?php foreach ($fasilitas as $f): ?>
                         <li class="wisata-fasilitas-item">
@@ -44,9 +44,11 @@
             </div>
         <?php endif; ?>
 
+        <?= view('partials/homestay', ['homestayKamar' => $homestayKamar, 'pengaturan' => $pengaturan]) ?>
+
         <?php if (!empty($wisata['google_maps_embed'])): ?>
             <div class="map-box mt-lg">
-                <h3><i class="fa-solid fa-map-location-dot"></i> Lokasi di Peta</h3>
+                <h3 class="detail-section-title"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Lokasi</h3>
                 <div class="map-embed">
                     <?= $wisata['google_maps_embed'] ?>
                 </div>
@@ -54,14 +56,17 @@
         <?php endif; ?>
 
         <?php if (!empty($galeri)): ?>
-            <h3 class="mt-lg">Galeri Destinasi</h3>
-            <div class="gallery-grid">
-                <?php foreach ($galeri as $g): ?>
-                    <a href="<?= upload_url($g['gambar']) ?>" class="gallery-item" data-lightbox>
-                        <img src="<?= upload_url($g['gambar']) ?>" alt="<?= esc($g['judul'] ?? $wisata['nama']) ?>"
-                            loading="lazy">
-                    </a>
-                <?php endforeach; ?>
+            <div class="wisata-galeri mt-lg">
+                <h3 class="detail-section-title"><i class="fa-solid fa-images" aria-hidden="true"></i> Galeri</h3>
+                <div class="gallery-grid">
+                    <?php foreach ($galeri as $g): ?>
+                        <a href="<?= upload_url($g['gambar']) ?>" class="gallery-item" data-lightbox
+                            title="<?= esc($g['judul'] ?? $wisata['nama']) ?>">
+                            <img src="<?= upload_url($g['gambar']) ?>" alt="<?= esc($g['judul'] ?? $wisata['nama']) ?>"
+                                loading="lazy">
+                        </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php endif; ?>
 

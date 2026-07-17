@@ -260,21 +260,29 @@ function initLightbox() {
 
   const img = lightbox.querySelector("img");
   const closeBtn = lightbox.querySelector(".lightbox-close");
+  let closeTimer;
 
   document.querySelectorAll("[data-lightbox]").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
+      clearTimeout(closeTimer);
       img.src = el.getAttribute("href");
       img.alt = el.getAttribute("title") || "";
       lightbox.hidden = false;
+      requestAnimationFrame(() => {
+        lightbox.classList.add("is-open");
+      });
       document.body.style.overflow = "hidden";
     });
   });
 
   const close = () => {
-    lightbox.hidden = true;
-    img.src = "";
+    lightbox.classList.remove("is-open");
     document.body.style.overflow = "";
+    closeTimer = setTimeout(() => {
+      lightbox.hidden = true;
+      img.src = "";
+    }, 250);
   };
 
   closeBtn.addEventListener("click", close);

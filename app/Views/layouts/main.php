@@ -42,6 +42,11 @@
         </a>
     <?php endif; ?>
 
+    <div id="lightbox" class="lightbox" hidden>
+        <button type="button" class="lightbox-close" aria-label="Tutup">&times;</button>
+        <img src="" alt="">
+    </div>
+
     <script src="<?= asset_url('assets/js/app.js') ?>"></script>
     <?= $this->renderSection('scripts') ?>
 </body>

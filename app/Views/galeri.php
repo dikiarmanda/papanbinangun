@@ -55,9 +55,4 @@
     </div>
 </section>
 
-<div id="lightbox" class="lightbox" hidden>
-    <button type="button" class="lightbox-close" aria-label="Tutup">&times;</button>
-    <img src="" alt="">
-</div>
-
 <?= $this->endSection() ?>

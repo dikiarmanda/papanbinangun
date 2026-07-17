@@ -44,7 +44,7 @@
             </div>
         <?php endif; ?>
 
-        <?= view('partials/homestay', ['homestayKamar' => $homestayKamar, 'pengaturan' => $pengaturan]) ?>
+        <!-- <?= view('partials/homestay', ['homestayKamar' => $homestayKamar, 'pengaturan' => $pengaturan]) ?> -->
 
         <?php if (!empty($wisata['google_maps_embed'])): ?>
             <div class="map-box mt-lg">

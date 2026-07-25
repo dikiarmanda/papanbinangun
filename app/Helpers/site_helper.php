@@ -15,6 +15,22 @@ if (!function_exists('pengaturan')) {
     }
 }
 
+if (! function_exists('layanan_url')) {
+    /**
+     * Base URL website profil (untuk logo upload di master, dll).
+     */
+    function layanan_url(string $path = ''): string
+    {
+        $base = rtrim((string) (env('app.layananURL') ?: 'http://localhost/layanan-papanbinangun/public/'), '/');
+
+        if ($path === '') {
+            return $base . '/';
+        }
+
+        return $base . '/' . ltrim($path, '/');
+    }
+}
+
 if (!function_exists('slugify')) {
     function slugify(string $text): string
     {

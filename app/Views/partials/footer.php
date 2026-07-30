@@ -41,6 +41,10 @@
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
                 <?php endif; ?>
+                <a href="https://id.shp.ee/4RQUfoNz" target="_blank" rel="noopener" aria-label="Shopee"
+                    title="Belanja di Shopee">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </a>
             </div>
         </div>
     </div>

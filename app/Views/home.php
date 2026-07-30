@@ -93,11 +93,17 @@
             <p>Saksikan potret kehidupan dan pesona alam Wisata Binangun</p>
         </div>
         <div class="video-frame">
-            <div class="video-embed">
-                <iframe src="https://www.youtube.com/embed/<?= esc($youtubeId, 'attr') ?>?rel=0&modestbranding=1"
-                    title="Video profil <?= esc($pengaturan['nama_desa'], 'attr') ?>"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            <div class="video-embed" data-youtube-facade
+                data-youtube-id="<?= esc($youtubeId, 'attr') ?>"
+                data-youtube-title="Video profil <?= esc($pengaturan['nama_desa'], 'attr') ?>">
+                <button type="button" class="video-facade" aria-label="Putar video profil">
+                    <img src="<?= asset_url('assets/images/overlay-youtube.png') ?>"
+                        alt="Thumbnail video profil <?= esc($pengaturan['nama_desa']) ?>"
+                        class="video-facade-img" width="1280" height="720" loading="lazy">
+                    <span class="video-facade-play" aria-hidden="true">
+                        <i class="fa-solid fa-play"></i>
+                    </span>
+                </button>
             </div>
         </div>
     </div>
@@ -126,7 +132,7 @@
                         <div class="card-body">
                             <h3><a href="<?= site_url('wisata/' . $w['slug']) ?>"><?= esc($w['nama']) ?></a></h3>
                             <a href="<?= wa_link($pengaturan['no_whatsapp'], 'hai saya mau reservasi untuk ' . $w['nama']) ?>"
-                                class="btn btn-outline btn-card" target="_blank" rel="noopener">
+                                class="btn btn-primary btn-card" target="_blank" rel="noopener">
                                 <i class="fa-solid fa-ticket"></i> Reservasi
                             </a>
                             <a href="<?= site_url('wisata/' . $w['slug']) ?>" class="btn btn-outline btn-card btn-sm">

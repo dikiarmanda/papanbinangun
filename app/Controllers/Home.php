@@ -22,7 +22,7 @@ class Home extends BaseController
             'artikel' => (new ArtikelModel())->getPublished(3),
             'galeri' => (new GaleriModel())->orderBy('created_at', 'DESC')->findAll(6),
             'heroBanners' => $this->heroBanners(),
-            'youtubeId' => 'nUT9GVqArXU',
+            'youtubeId' => 'iPjonNpU0aM',
             'supporters' => $this->supporters(),
             'testimonials' => $this->testimonials(),
             'mapEmbed' => $this->mapEmbed($settings, $mapQuery),

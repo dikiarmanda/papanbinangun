@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEWU DATA · Pasar Pring Sewu</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== HEADER ATAS (VINTAGE) ===== -->
+<header class="site-header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="brand-logo">SD</div>
+            <div class="brand-text">
+                <strong>SEWU DATA</strong>
+                <small>Dashboard Pasar Pring Sewu · Binangun</small>
+            </div>
+        </div>
+        <nav class="site-nav">
+    <a href="#" class="aktif"><i class="fas fa-chart-bar"></i> <span>Dashboard Penjualan</span></a>
+</nav>
+    </div>
+</header>
+
+<!-- ===== LAYOUT: SIDEBAR + KONTEN ===== -->
+<div class="app">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="sidebar-title">Menu</div>
+
+        <ul class="menu">
+            <li class="aktif" data-halaman="beranda" onclick="pindah(this)">
+                <i class="fas fa-home"></i> Beranda
+            </li>
+            <li data-halaman="statistik" onclick="pindah(this)">
+                <i class="fas fa-chart-bar"></i> Statistik
+            </li>
+            <li data-halaman="pedagang" onclick="pindah(this)">
+                <i class="fas fa-users"></i> Pedagang
+            </li>
+            <li data-halaman="periode" onclick="pindah(this)">
+                <i class="fas fa-calendar-alt"></i> Periode
+            </li>
+            <li data-halaman="laporan" onclick="pindah(this)">
+                <i class="fas fa-file-alt"></i> Laporan
+            </li>
+            <li data-halaman="pengaturan" onclick="pindah(this)">
+                <i class="fas fa-cog"></i> Pengaturan
+            </li>
+        </ul>
+
+        <div class="kotak-bawah">
+    <div class="judul">Pasar Pring Sewu</div>
+    <div class="ket">Dusun Binangun, Desa Plintahan, Pandaan</div>
+    <button onclick="window.open('https://papanbinangun.id', '_blank')">Lihat Profil</button>
+</div>
+    </aside>
+
+    <!-- ===== KONTEN ===== -->
+    <main class="konten">
+
+        <!-- ============ HALAMAN BERANDA ============ -->
+        <div class="halaman aktif" id="halaman-beranda">
+            <div class="konten-head">
+                <div>
+                    <span class="stamp">Ringkasan</span>
+                    <h1>Beranda</h1>
+                    <div class="sub">Ringkasan aktivitas Pasar Pring Sewu</div>
+                </div>
+                <div class="filter">
+                    <input type="text" id="cariBeranda" placeholder="Cari pedagang…" oninput="saring()">
+                    <select id="filterBulan" onchange="saring()">
+                        <option value="all">Semua Bulan</option>
+                    </select>
+                    <select id="filterOrang" onchange="saring()">
+                        <option value="all">Semua Pedagang</option>
+                    </select>
+                    <button class="tombol tombol-coklat" onclick="unduhCSV('beranda')">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                    <button class="tombol tombol-excel" onclick="unduhExcel('beranda')">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="baris-stat">
+                <div class="kartu">
+                    <div class="judul">Total Keping</div>
+                    <div class="angka" id="sKeping">0</div>
+                    <div class="ket">keping bambu</div>
+                </div>
+                <div class="kartu">
+                    <div class="judul">Total Omzet</div>
+                    <div class="angka" id="sOmzet">Rp 0</div>
+                    <div class="ket">seluruh pedagang</div>
+                </div>
+                <div class="kartu">
+                    <div class="judul">Pedagang</div>
+                    <div class="angka" id="sOrang">0</div>
+                    <div class="ket">orang aktif</div>
+                </div>
+                <div class="kartu">
+                    <div class="judul">Rata-rata Harian</div>
+                    <div class="angka" id="sHarian">Rp 0</div>
+                    <div class="ket">per hari</div>
+                </div>
+            </div>
+
+            <div class="grid-utama">
+                <div class="kolom-kiri">
+                    <div class="kotak">
+                        <h3><i class="fas fa-chart-line"></i> Omzet per Bulan</h3>
+                        <div class="kanvas"><canvas id="grafikBulan"></canvas></div>
+                    </div>
+                    <div class="kotak">
+                        <h3><i class="fas fa-chart-bar"></i> 10 Pedagang Omzet Terbesar</h3>
+                        <div class="kanvas"><canvas id="grafikOmzet"></canvas></div>
+                    </div>
+                </div>
+                <div class="kolom-kanan">
+                    <div class="kotak">
+                        <h3><i class="fas fa-crown"></i> Omzet Tertinggi</h3>
+                        <div class="angka-besar">
+                            <span class="label">Nilai</span>
+                            <span id="sMaxOmzet">Rp 0</span>
+                        </div>
+                        <div class="ket" style="font-size:12px;color:#8a7a68;font-style:italic;" id="sMaxOmzetNama">-</div>
+                    </div>
+                    <div class="kotak">
+                        <h3><i class="fas fa-star"></i> 5 Pedagang Teratas</h3>
+                        <ul class="daftar-pedagang" id="top5">
+                            <li><span class="no">-</span><span class="nama">Memuat…</span><span class="nilai">-</span></li>
+                        </ul>
+                    </div>
+                    <div class="kotak">
+                        <h3><i class="fas fa-percentage"></i> Partisipasi Pedagang</h3>
+                        <div class="lingkaran">
+                            <div class="angka" id="persenAngka">0%</div>
+                            <div class="ket">dari total pedagang terdaftar</div>
+                            <div class="bar"><span id="persenBar" style="width:0%"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ HALAMAN STATISTIK ============ -->
+        <div class="halaman" id="halaman-statistik">
+            <div class="konten-head">
+                <div>
+                    <span class="stamp">Data Lengkap</span>
+                    <h1>Statistik</h1>
+                    <div class="sub">Data keping, omzet, dan performa pedagang</div>
+                </div>
+                <div class="filter">
+                    <input type="text" id="cariStatistik" placeholder="Cari pedagang…" oninput="isiHalamanStatistik()">
+                    <button class="tombol tombol-coklat" onclick="unduhCSV('statistik')">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                    <button class="tombol tombol-excel" onclick="unduhExcel('statistik')">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="tabel-kotak" style="margin-bottom:16px;">
+                <h3><i class="fas fa-chart-pie"></i> Ringkasan Angka</h3>
+                <div class="info-baris"><span class="kiri">Total Keping</span><span class="kanan" id="statKeping">-</span></div>
+                <div class="info-baris"><span class="kiri">Total Omzet</span><span class="kanan" id="statOmzet">-</span></div>
+                <div class="info-baris"><span class="kiri">Jumlah Pedagang</span><span class="kanan" id="statOrang">-</span></div>
+                <div class="info-baris"><span class="kiri">Rata-rata Harian</span><span class="kanan" id="statHarian">-</span></div>
+                <div class="info-baris"><span class="kiri">Omzet Tertinggi</span><span class="kanan" id="statMaxOmzet">-</span></div>
+                <div class="info-baris"><span class="kiri">Keping Terbanyak</span><span class="kanan" id="statMaxKeping">-</span></div>
+            </div>
+
+            <div class="tabel-kotak">
+                <h3><i class="fas fa-table"></i> Rekap Lengkap Pedagang</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Keping</th>
+                            <th>Omzet</th>
+                            <th>Rata-rata/Minggu</th>
+                            <th>Peringkat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isiTabelStatistik"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ HALAMAN PEDAGANG ============ -->
+        <div class="halaman" id="halaman-pedagang">
+            <div class="konten-head">
+                <div>
+                    <span class="stamp">Daftar</span>
+                    <h1>Pedagang</h1>
+                    <div class="sub">Daftar seluruh pedagang Pasar Pring Sewu</div>
+                </div>
+                <div class="filter">
+                    <input type="text" id="cariPedagang" placeholder="Cari pedagang…" oninput="isiHalamanPedagang()">
+                    <button class="tombol tombol-coklat" onclick="unduhCSV('pedagang')">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                    <button class="tombol tombol-excel" onclick="unduhExcel('pedagang')">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                </div>
+            </div>
+            <div class="tabel-kotak">
+                <h3><i class="fas fa-users"></i> Daftar Pedagang</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Pedagang</th>
+                            <th>Jumlah Entri</th>
+                            <th>Total Keping</th>
+                            <th>Total Omzet</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isiTabelPedagang"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ HALAMAN PERIODE ============ -->
+        <div class="halaman" id="halaman-periode">
+            <div class="konten-head">
+                <div>
+                    <span class="stamp">Bulanan</span>
+                    <h1>Periode</h1>
+                    <div class="sub">Rekap data berdasarkan bulan</div>
+                </div>
+                <div class="filter">
+                    <input type="text" id="cariPeriode" placeholder="Cari bulan…" oninput="isiHalamanPeriode()">
+                    <button class="tombol tombol-coklat" onclick="unduhCSV('periode')">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                    <button class="tombol tombol-excel" onclick="unduhExcel('periode')">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                </div>
+            </div>
+            <div class="tabel-kotak">
+                <h3><i class="fas fa-calendar-alt"></i> Data per Bulan</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th>Total Keping</th>
+                            <th>Total Omzet</th>
+                            <th>Jumlah Pedagang</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isiTabelPeriode"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ HALAMAN LAPORAN ============ -->
+        <div class="halaman" id="halaman-laporan">
+            <div class="konten-head">
+                <div>
+                    <span class="stamp">Unduh</span>
+                    <h1>Laporan</h1>
+                    <div class="sub">Unduh ringkasan data penjualan</div>
+                </div>
+            </div>
+            <div class="kotak">
+                <h3><i class="fas fa-file-alt"></i> Ringkasan Laporan</h3>
+                <p style="font-size:14px; line-height:1.8; color:var(--deep); font-style:italic;">
+                    Laporan berisi rekap penjualan keping bambu dan omzet seluruh pedagang Pasar Pring Sewu.
+                    Data dapat disaring berdasarkan bulan dan nama pedagang melalui halaman Beranda.
+                </p>
+                <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
+                    <button class="tombol tombol-coklat" onclick="unduhCSV('laporan')">
+                        <i class="fas fa-file-csv"></i> CSV Rekap Lengkap
+                    </button>
+                    <button class="tombol tombol-excel" onclick="unduhExcel('laporan')">
+                        <i class="fas fa-file-excel"></i> Excel Rekap Lengkap
+                    </button>
+                    <button class="tombol tombol-outline" onclick="unduhExcel('periode')">
+                        <i class="fas fa-calendar-alt"></i> Excel per Bulan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ HALAMAN PENGATURAN ============ -->
+        <div class="halaman" id="halaman-pengaturan">
+            <div class="konten-head">
+                <div>
+                    <span class="stamp">Info</span>
+                    <h1>Pengaturan</h1>
+                    <div class="sub">Preferensi tampilan dan data</div>
+                </div>
+            </div>
+            <div class="kotak">
+                <h3><i class="fas fa-cog"></i> Pengaturan Umum</h3>
+                <div class="info-baris">
+                    <span class="kiri">Nama Dashboard</span>
+                    <span class="kanan">SEWU DATA</span>
+                </div>
+                <div class="info-baris">
+                    <span class="kiri">Lokasi</span>
+                    <span class="kanan">Pasar Pring Sewu, Binangun</span>
+                </div>
+                <div class="info-baris">
+                    <span class="kiri">Mata Uang</span>
+                    <span class="kanan">Rupiah (Rp)</span>
+                </div>
+                <div class="info-baris">
+                    <span class="kiri">Satuan Keping</span>
+                    <span class="kanan">1 keping = Rp 2.000</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">SEWU DATA</div>
+        <div class="footer-info">
+            <i class="fas fa-map-pin"></i> Pasar Pring Sewu · Dusun Binangun · Desa Plintahan · Pandaan
+        </div>
+        <div class="footer-info">
+            <i class="fas fa-leaf"></i> Bagian dari ekosistem Papan Binangun
+        </div>
+    </div>
+</footer>
+
+<!-- Panggil file JS -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

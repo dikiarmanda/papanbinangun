@@ -1,0 +1,953 @@
+/* ================================================================
+   SEWU DATA — Tema Vintage Papan Binangun (Hybrid Layout)
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+    --cream: #f4e9d8;
+    --sepia: #8b5e3c;
+    --deep: #4a3222;
+    --terracotta: #c1502e;
+    --olive: #7a8450;
+    --gold: #c9a66b;
+    --cream-dark: #e8d9c0;
+    --white: #fffbf5;
+    --shadow: rgba(74, 50, 34, .12);
+    --font-heading: "Cormorant Garamond", Georgia, serif;
+    --font-body: "Lora", Georgia, serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--deep);
+    background-color: var(--cream);
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='4' stitchTiles='stitch' type='fractalNoise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)' opacity='.04'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   HEADER ATAS (VINTAGE PAPAN BINANGUN)
+   ================================================================ */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(244, 233, 216, 0.95);
+    border-bottom: 1px solid var(--gold);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.header-inner {
+    max-width: 100%;
+    padding: 12px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--deep);
+    text-decoration: none;
+}
+
+.brand-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.brand-text strong {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--deep);
+}
+
+.brand-text small {
+    font-size: 11px;
+    color: var(--sepia);
+    font-style: italic;
+    margin-top: 2px;
+}
+
+/* Navigasi header */
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.site-nav a {
+    color: var(--deep);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.site-nav a i {
+    font-size: 12px;
+    color: var(--sepia);
+    transition: color 0.2s;
+}
+
+.site-nav a:hover,
+.site-nav a.aktif {
+    color: var(--terracotta);
+}
+
+.site-nav a:hover i,
+.site-nav a.aktif i {
+    color: var(--terracotta);
+}
+
+.site-nav a.aktif::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: var(--terracotta);
+}
+
+/* ================================================================
+   LAYOUT UTAMA: SIDEBAR + KONTEN
+   ================================================================ */
+.app {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 220px;
+    background: var(--white);
+    border-right: 1px solid var(--gold);
+    padding: 22px 14px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.sidebar::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 8px;
+    right: 8px;
+    border: 1px solid rgba(201, 166, 107, 0.25);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.sidebar .sidebar-title {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--sepia);
+    margin-bottom: 14px;
+    padding-left: 12px;
+    position: relative;
+}
+
+.sidebar .menu {
+    list-style: none;
+    flex: 1;
+    position: relative;
+}
+
+.sidebar .menu li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--deep);
+    cursor: pointer;
+    margin-bottom: 2px;
+    transition: all 0.2s;
+    user-select: none;
+    border: 1px solid transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.sidebar .menu li i {
+    width: 16px;
+    font-size: 13px;
+    color: var(--sepia);
+    transition: color 0.2s;
+}
+
+.sidebar .menu li:hover {
+    background: var(--cream);
+    border-color: var(--gold);
+}
+
+.sidebar .menu li.aktif {
+    background: var(--cream-dark);
+    color: var(--deep);
+    font-weight: 600;
+    border-color: var(--gold);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.sidebar .menu li.aktif i {
+    color: var(--terracotta);
+}
+
+.sidebar .menu li.aktif::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 20%;
+    bottom: 20%;
+    width: 3px;
+    background: var(--terracotta);
+    border-radius: 2px;
+}
+
+.sidebar .kotak-bawah {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 16px 14px;
+    border-radius: 4px;
+    margin-top: 14px;
+    border: 1px solid var(--gold);
+    position: relative;
+    z-index: 1;
+}
+
+.sidebar .kotak-bawah .judul {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--gold);
+}
+
+.sidebar .kotak-bawah .ket {
+    font-size: 11px;
+    color: var(--cream);
+    opacity: 0.85;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.sidebar .kotak-bawah button {
+    width: 100%;
+    background: var(--terracotta);
+    color: var(--white);
+    border: 1px solid var(--terracotta);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sidebar .kotak-bawah button:hover {
+    background: #a34226;
+    border-color: #a34226;
+}
+
+/* ===== KONTEN ===== */
+.konten {
+    flex: 1;
+    padding: 24px 28px;
+    overflow-x: auto;
+    min-width: 0;
+}
+
+.konten-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gold);
+    position: relative;
+}
+
+.konten-head::after {
+    content: "❦";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cream);
+    padding: 0 12px;
+    color: var(--gold);
+    font-size: 18px;
+}
+
+.konten-head h1 {
+    font-family: var(--font-heading);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--deep);
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+}
+
+.konten-head .sub {
+    font-size: 13px;
+    color: var(--sepia);
+    font-style: italic;
+    margin-top: 4px;
+}
+
+/* Stamp vintage */
+.stamp {
+    display: inline-block;
+    padding: 4px 14px;
+    border: 2px solid var(--gold);
+    color: var(--sepia);
+    font-family: var(--font-heading);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    transform: rotate(-2deg);
+    background: var(--white);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.konten-head .filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.konten-head select,
+.konten-head input[type="text"] {
+    padding: 8px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--sepia);
+    background: var(--white);
+    color: var(--deep);
+    font-size: 13px;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.konten-head input[type="text"] {
+    width: 180px;
+}
+
+.konten-head input[type="text"]:focus,
+.konten-head select:focus {
+    outline: none;
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(193, 80, 46, 0.1);
+}
+
+/* Tombol */
+.tombol {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 36px;
+}
+
+.tombol-coklat {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: var(--white);
+}
+
+.tombol-coklat:hover {
+    background: #a34226;
+    border-color: #a34226;
+}
+
+.tombol-excel {
+    background: var(--olive);
+    border-color: var(--olive);
+    color: var(--white);
+}
+
+.tombol-excel:hover {
+    background: #5e6640;
+    border-color: #5e6640;
+}
+
+.tombol-outline {
+    background: transparent;
+    color: var(--sepia);
+    border: 1px solid var(--sepia);
+}
+
+.tombol-outline:hover {
+    background: var(--sepia);
+    color: var(--cream);
+}
+
+/* ===== HALAMAN ===== */
+.halaman {
+    display: none;
+}
+
+.halaman.aktif {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== KARTU STATISTIK ===== */
+.baris-stat {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.kartu {
+    background: var(--white);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 16px 18px;
+    box-shadow: 0 4px 14px var(--shadow);
+    position: relative;
+    transition: all 0.25s;
+    overflow: hidden;
+}
+
+.kartu::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(201, 166, 107, 0.3);
+    border-radius: 2px;
+    pointer-events: none;
+}
+
+.kartu:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(74, 50, 34, 0.14);
+}
+
+.kartu .judul {
+    font-size: 10.5px;
+    color: var(--sepia);
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    font-weight: 600;
+    position: relative;
+}
+
+.kartu .angka {
+    font-family: var(--font-body);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--deep);
+    margin-top: 6px;
+    line-height: 1.2;
+    position: relative;
+    letter-spacing: -0.3px;
+}
+
+.kartu .ket {
+    font-size: 11px;
+    color: var(--sepia);
+    font-style: italic;
+    margin-top: 3px;
+    position: relative;
+}
+
+/* ===== GRID ===== */
+.grid-utama {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 18px;
+}
+
+.kolom-kiri,
+.kolom-kanan {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+}
+
+.kotak {
+    background: var(--white);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 14px var(--shadow);
+    position: relative;
+}
+
+.kotak h3 {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--deep);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201, 166, 107, 0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.kotak h3 i {
+    color: var(--terracotta);
+    width: 18px;
+    margin-right: 6px;
+}
+
+.kanvas {
+    position: relative;
+    height: 210px;
+}
+
+.angka-besar {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--terracotta);
+    margin-bottom: 4px;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+}
+
+.angka-besar .label {
+    font-size: 10.5px;
+    color: var(--sepia);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 3px;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+/* Daftar pedagang */
+.daftar-pedagang {
+    list-style: none;
+}
+
+.daftar-pedagang li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(201, 166, 107, 0.25);
+    font-size: 13.5px;
+}
+
+.daftar-pedagang li:last-child {
+    border-bottom: none;
+}
+
+.daftar-pedagang .no {
+    width: 26px;
+    height: 26px;
+    background: var(--cream);
+    color: var(--sepia);
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: var(--font-heading);
+}
+
+.daftar-pedagang li:nth-child(1) .no {
+    background: var(--gold);
+    color: var(--deep);
+    border-color: var(--terracotta);
+}
+
+.daftar-pedagang .nama {
+    flex: 1;
+    color: var(--deep);
+    font-weight: 500;
+}
+
+.daftar-pedagang .nilai {
+    font-size: 12px;
+    color: var(--terracotta);
+    font-weight: 600;
+}
+
+/* Lingkaran */
+.lingkaran {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.lingkaran .angka {
+    font-family: var(--font-body);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--terracotta);
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.lingkaran .ket {
+    font-size: 11px;
+    color: var(--sepia);
+    font-style: italic;
+    margin-top: 4px;
+    text-align: center;
+}
+
+.lingkaran .bar {
+    width: 100%;
+    height: 8px;
+    background: var(--cream);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    margin-top: 14px;
+    overflow: hidden;
+}
+
+.lingkaran .bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--terracotta), var(--gold));
+    border-radius: 3px;
+    transition: width 0.8s ease;
+}
+
+/* Tabel */
+.tabel-kotak {
+    background: var(--white);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 14px var(--shadow);
+    overflow-x: auto;
+}
+
+.tabel-kotak h3 {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--deep);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201, 166, 107, 0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tabel-kotak h3 i {
+    color: var(--terracotta);
+    width: 18px;
+    margin-right: 6px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: var(--font-body);
+    font-variant-numeric: tabular-nums;
+}
+
+thead {
+    border-bottom: 2px solid var(--gold);
+}
+
+th {
+    text-align: left;
+    padding: 10px 10px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--sepia);
+    font-weight: 700;
+    font-family: var(--font-body);
+}
+
+td {
+    padding: 10px 10px;
+    border-bottom: 1px solid rgba(201, 166, 107, 0.25);
+    color: var(--deep);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background: rgba(244, 233, 216, 0.5);
+}
+
+.peringkat {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--sepia);
+    border: 1px solid var(--gold);
+    min-width: 28px;
+    text-align: center;
+}
+
+.p1 {
+    background: var(--gold);
+    color: var(--deep);
+    border-color: var(--terracotta);
+}
+
+.p2 {
+    background: var(--cream-dark);
+    color: var(--sepia);
+    border-color: var(--sepia);
+}
+
+.p3 {
+    background: #f0dcc0;
+    color: var(--deep);
+    border-color: var(--terracotta);
+}
+
+/* Info baris */
+.info-baris {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(201, 166, 107, 0.25);
+}
+
+.info-baris:last-child {
+    border-bottom: none;
+}
+
+.info-baris .kiri {
+    color: var(--sepia);
+    font-style: italic;
+}
+
+.info-baris .kanan {
+    color: var(--deep);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 24px 28px 18px;
+    margin-top: 30px;
+    border-top: 3px solid var(--gold);
+}
+
+.footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.footer-brand {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.footer-info {
+    font-size: 12px;
+    color: var(--cream);
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.footer-info i {
+    color: var(--gold);
+    margin-right: 4px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1000px) {
+    .grid-utama {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 750px) {
+    .header-inner {
+        padding: 10px 16px;
+    }
+
+    .brand-text strong {
+        font-size: 16px;
+    }
+
+    .brand-text small {
+        display: none;
+    }
+
+    .site-nav {
+        gap: 12px;
+    }
+
+    .site-nav a {
+        font-size: 12px;
+    }
+
+    .site-nav a span {
+        display: none;
+    }
+
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--gold);
+        padding: 14px;
+        position: static;
+    }
+
+    .sidebar::before {
+        display: none;
+    }
+
+    .sidebar .menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .sidebar .menu li {
+        margin-bottom: 0;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .sidebar .kotak-bawah,
+    .sidebar .sidebar-title {
+        display: none;
+    }
+
+    .konten {
+        padding: 16px;
+    }
+
+    .konten-head {
+        align-items: flex-start;
+    }
+
+    .konten-head h1 {
+        font-size: 22px;
+    }
+
+    .konten-head .filter {
+        width: 100%;
+    }
+
+    .konten-head input[type="text"] {
+        width: 100%;
+    }
+
+    .konten-head::after {
+        display: none;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 450px) {
+    .baris-stat {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .kartu .angka {
+        font-size: 20px;
+    }
+    .angka-besar {
+        font-size: 24px;
+    }
+    .lingkaran .angka {
+        font-size: 32px;
+    }
+}

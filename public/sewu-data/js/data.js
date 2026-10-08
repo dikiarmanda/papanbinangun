@@ -1,6 +1,6 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbyQmdTSRjkMIlpiJIuZLetxF9-FYmnSfWMm5c12wJrSpSfFZBU57aiSSUtV1eHelAp9/exec'
 let data = [];
-const TOTAL_TERDAFTAR = 46;
+// TOTAL_TERDAFTAR dihitung otomatis dari data di app.js
 
 const urutBulan = ['NOV 2025', 'DES 2025', 'JAN 2026', 'FEB 2026', 'MAR 2026',
                    'APRIL 2026', 'MEI 2026', 'JUNI 2026', 'JULI 2026',

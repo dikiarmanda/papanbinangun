@@ -20,6 +20,32 @@ function hitungTotalPedagang() {
 }
 
 // ================================================================
+// CARI BULAN OTOMATIS (untuk default filter)
+// ================================================================
+function cariBulanOtomatis(daftarBulan) {
+    const namaBulan = ['JANUARI', 'FEBRUARI', 'MARET', 'APRIL', 'MEI', 'JUNI',
+                       'JULI', 'AGUSTUS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER'];
+
+    const hariIni = new Date();
+    const bulanSekarang = namaBulan[hariIni.getMonth()];
+    const tahunSekarang = hariIni.getFullYear();
+
+    const formatBulanIni = bulanSekarang + ' ' + tahunSekarang;
+    if (daftarBulan.includes(formatBulanIni)) {
+        return formatBulanIni;
+    }
+
+    const bulanLalu = hariIni.getMonth() === 0 ? 'DESEMBER' : namaBulan[hariIni.getMonth() - 1];
+    const tahunLalu = hariIni.getMonth() === 0 ? tahunSekarang - 1 : tahunSekarang;
+    const formatBulanLalu = bulanLalu + ' ' + tahunLalu;
+    if (daftarBulan.includes(formatBulanLalu)) {
+        return formatBulanLalu;
+    }
+
+    return daftarBulan[daftarBulan.length - 1];
+}
+
+// ================================================================
 // NAVIGASI
 // ================================================================
 function pindah(el) {
@@ -511,7 +537,7 @@ function unduhExcel(jenis) {
 }
 
 // ================================================================
-// INISIALISASI
+// INISIALISASI SETELAH DATA SIAP
 // ================================================================
 function siapkanDashboard() {
     const daftarBulan = [...new Set(data.map(d => d.b))];
@@ -523,7 +549,8 @@ function siapkanDashboard() {
         ...daftarBulan.filter(b => !urutanBulan.includes(b))
     ];
 
-    // Dropdown bulan Beranda
+    const bulanOtomatis = cariBulanOtomatis(bulanFinal);
+
     const selBulan = document.getElementById('filterBulan');
     selBulan.innerHTML = '<option value="all">Semua Bulan</option>';
     bulanFinal.forEach(b => {
@@ -532,8 +559,8 @@ function siapkanDashboard() {
         opt.textContent = b;
         selBulan.appendChild(opt);
     });
+    selBulan.value = bulanOtomatis;
 
-    // Dropdown bulan Statistik
     const selBulanStat = document.getElementById('filterBulanStat');
     selBulanStat.innerHTML = '<option value="all">Semua Bulan</option>';
     bulanFinal.forEach(b => {
@@ -542,8 +569,8 @@ function siapkanDashboard() {
         opt.textContent = b;
         selBulanStat.appendChild(opt);
     });
+    selBulanStat.value = bulanOtomatis;
 
-    // Dropdown bulan Pedagang
     const selBulanPedagang = document.getElementById('filterBulanPedagang');
     selBulanPedagang.innerHTML = '<option value="all">Semua Bulan</option>';
     bulanFinal.forEach(b => {
@@ -552,8 +579,8 @@ function siapkanDashboard() {
         opt.textContent = b;
         selBulanPedagang.appendChild(opt);
     });
+    selBulanPedagang.value = bulanOtomatis;
 
-    // Dropdown pedagang
     const daftarOrang = [...new Set(data.map(d => d.n))].sort();
 
     const selOrang = document.getElementById('filterOrang');

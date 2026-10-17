@@ -94,3 +94,14 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
         $routes->post('update', 'Admin\PengaturanController::update');
     });
 });
+// -------------------------------------------------------------------------
+// SEWU DATA — Dashboard & API
+// -------------------------------------------------------------------------
+$routes->group('sewu-data', static function ($routes) {
+    $routes->get('/', 'SewuDataController::index');
+    
+    // API endpoints
+    $routes->get('api/data', 'SewuDataApiController::data');
+    $routes->get('api/statistik', 'SewuDataApiController::statistik');
+    $routes->get('api/pedagang', 'SewuDataApiController::pedagang');
+});

@@ -1,6 +1,4 @@
-// ================================================================
 // FUNGSI BANTU
-// ================================================================
 function rupiah(a) {
     return 'Rp ' + Math.round(a).toLocaleString('id-ID');
 }
@@ -19,9 +17,7 @@ function hitungTotalPedagang() {
     return new Set(data.map(x => x.n)).size;
 }
 
-// ================================================================
 // CARI BULAN OTOMATIS (untuk default filter)
-// ================================================================
 function cariBulanOtomatis(daftarBulan) {
     const namaBulan = ['JANUARI', 'FEBRUARI', 'MARET', 'APRIL', 'MEI', 'JUNI',
                        'JULI', 'AGUSTUS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER'];

@@ -1,3 +1,4 @@
+// FUNGSI BANTU
 function rupiah(a) {
     return 'Rp ' + Math.round(a).toLocaleString('id-ID');
 }
@@ -10,6 +11,34 @@ function rupiahPendek(a) {
 
 function cocok(nama, kata) {
     return nama.toLowerCase().includes(kata.toLowerCase());
+}
+
+function hitungTotalPedagang() {
+    return new Set(data.map(x => x.n)).size;
+}
+
+// CARI BULAN OTOMATIS (untuk default filter)
+function cariBulanOtomatis(daftarBulan) {
+    const namaBulan = ['JANUARI', 'FEBRUARI', 'MARET', 'APRIL', 'MEI', 'JUNI',
+                       'JULI', 'AGUSTUS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER'];
+
+    const hariIni = new Date();
+    const bulanSekarang = namaBulan[hariIni.getMonth()];
+    const tahunSekarang = hariIni.getFullYear();
+
+    const formatBulanIni = bulanSekarang + ' ' + tahunSekarang;
+    if (daftarBulan.includes(formatBulanIni)) {
+        return formatBulanIni;
+    }
+
+    const bulanLalu = hariIni.getMonth() === 0 ? 'DESEMBER' : namaBulan[hariIni.getMonth() - 1];
+    const tahunLalu = hariIni.getMonth() === 0 ? tahunSekarang - 1 : tahunSekarang;
+    const formatBulanLalu = bulanLalu + ' ' + tahunLalu;
+    if (daftarBulan.includes(formatBulanLalu)) {
+        return formatBulanLalu;
+    }
+
+    return daftarBulan[daftarBulan.length - 1];
 }
 
 // ================================================================
@@ -25,12 +54,8 @@ function pindah(el) {
 
     if (tujuan === 'statistik') isiHalamanStatistik();
     if (tujuan === 'pedagang') isiHalamanPedagang();
-    if (tujuan === 'periode') isiHalamanPeriode();
 }
 
-// ================================================================
-// GRAFIK
-// ================================================================
 let gBulan = null;
 let gOmzet = null;
 
@@ -47,12 +72,12 @@ function saring() {
     if (orang !== 'all') hasil = hasil.filter(d => d.n === orang);
     if (cari) hasil = hasil.filter(d => cocok(d.n, cari));
 
-    tampilStat(hasil);
+    tampilStat(hasil, bulan);
     tampilTop5(hasil);
-    tampilGrafik(hasil);
+    tampilGrafik(hasil, bulan);
 }
 
-function tampilStat(d) {
+function tampilStat(d, filterBulan) {
     const totalKeping = d.reduce((s, x) => s + x.k, 0);
     const totalOmzet = d.reduce((s, x) => s + x.o, 0);
     const jumlahOrang = new Set(d.map(x => x.n)).size;
@@ -70,9 +95,20 @@ function tampilStat(d) {
     document.getElementById('sMaxOmzet').textContent = rupiah(maxO);
     document.getElementById('sMaxOmzetNama').textContent = maxONama || '-';
 
-    const persen = Math.round((jumlahOrang / TOTAL_TERDAFTAR) * 100);
+    const totalUnik = hitungTotalPedagang();
+    const persen = totalUnik > 0 ? Math.round((jumlahOrang / totalUnik) * 100) : 0;
+
     document.getElementById('persenAngka').textContent = persen + '%';
     document.getElementById('persenBar').style.width = persen + '%';
+
+    const ket = document.getElementById('persenKet');
+    if (ket) {
+        if (filterBulan === 'all') {
+            ket.textContent = jumlahOrang + ' dari ' + totalUnik + ' pedagang aktif';
+        } else {
+            ket.textContent = jumlahOrang + ' dari ' + totalUnik + ' pedagang aktif di ' + filterBulan;
+        }
+    }
 }
 
 function tampilTop5(d) {
@@ -99,20 +135,33 @@ function tampilTop5(d) {
         '<li><span class="no">-</span><span class="nama">Tidak ada data</span><span class="nilai">-</span></li>';
 }
 
-function tampilGrafik(d) {
+function tampilGrafik(d, filterBulan) {
     const perBulan = {};
     d.forEach(x => {
         if (!perBulan[x.b]) perBulan[x.b] = 0;
         perBulan[x.b] += x.o;
     });
-    const nilaiBulan = urutBulan.map(b => perBulan[b] || 0);
+
+    let bulanGrafik;
+    if (filterBulan === 'all') {
+        bulanGrafik = urutBulan.slice(-6);
+    } else {
+        const idx = urutBulan.indexOf(filterBulan);
+        if (idx >= 0) {
+            const start = Math.max(0, idx - 5);
+            bulanGrafik = urutBulan.slice(start, idx + 1);
+        } else {
+            bulanGrafik = urutBulan.slice(-6);
+        }
+    }
+    const nilaiBulan = bulanGrafik.map(b => perBulan[b] || 0);
 
     const ctx1 = document.getElementById('grafikBulan').getContext('2d');
     if (gBulan) gBulan.destroy();
     gBulan = new Chart(ctx1, {
         type: 'line',
         data: {
-            labels: urutBulan,
+            labels: bulanGrafik,
             datasets: [{
                 data: nilaiBulan,
                 borderColor: '#5a3e2e',
@@ -150,7 +199,7 @@ function tampilGrafik(d) {
     gOmzet = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: top10.map(x => x.nama.length > 14 ? x.nama.slice(0, 12) + '…' : x.nama),
+            labels: top10.map(x => x.nama.length > 14 ? x.nama.slice(0, 12) + '...' : x.nama),
             datasets: [{
                 data: top10.map(x => x.o),
                 backgroundColor: '#7a5a44',
@@ -175,7 +224,12 @@ function tampilGrafik(d) {
 // ================================================================
 function isiHalamanStatistik() {
     const cari = document.getElementById('cariStatistik').value;
-    const d = data;
+    const bulan = document.getElementById('filterBulanStat').value;
+    const orang = document.getElementById('filterOrangStat').value;
+
+    let d = data;
+    if (bulan !== 'all') d = d.filter(x => x.b === bulan);
+    if (orang !== 'all') d = d.filter(x => x.n === orang);
 
     const totalKeping = d.reduce((s, x) => s + x.k, 0);
     const totalOmzet = d.reduce((s, x) => s + x.o, 0);
@@ -236,8 +290,13 @@ function isiHalamanStatistik() {
 // ================================================================
 function isiHalamanPedagang() {
     const cari = document.getElementById('cariPedagang').value;
+    const bulan = document.getElementById('filterBulanPedagang').value;
+
+    let d = data;
+    if (bulan !== 'all') d = d.filter(x => x.b === bulan);
+
     const rekap = {};
-    data.forEach(x => {
+    d.forEach(x => {
         if (!rekap[x.n]) rekap[x.n] = { k: 0, o: 0, entri: 0 };
         rekap[x.n].k += x.k;
         rekap[x.n].o += x.o;
@@ -258,38 +317,51 @@ function isiHalamanPedagang() {
             '<td>' + item.entri + '</td>' +
             '<td>' + item.k.toLocaleString('id-ID') + ' kb</td>' +
             '<td>' + rupiah(item.o) + '</td>' +
+            '<td><button class="tombol tombol-outline" onclick="lihatRiwayat(\'' + item.nama.replace(/'/g, "\\'") + '\')" style="font-size:11px;padding:4px 10px;min-height:28px;">Riwayat</button></td>' +
             '</tr>';
     });
 
     document.getElementById('isiTabelPedagang').innerHTML = html ||
-        '<tr><td colspan="5" style="text-align:center;color:#9a8a78;padding:20px;">Tidak ada data</td></tr>';
+        '<tr><td colspan="6" style="text-align:center;color:#9a8a78;padding:20px;">Tidak ada data</td></tr>';
 }
 
-// ================================================================
-// HALAMAN PERIODE
-// ================================================================
-function isiHalamanPeriode() {
-    const cari = document.getElementById('cariPeriode').value;
-    let daftar = urutBulan;
-    if (cari) daftar = daftar.filter(b => b.toLowerCase().includes(cari.toLowerCase()));
+function lihatRiwayat(nama) {
+    const riwayat = data.filter(x => x.n === nama);
 
-    let html = '';
-    daftar.forEach(b => {
-        const isi = data.filter(x => x.b === b);
-        const keping = isi.reduce((s, x) => s + x.k, 0);
-        const omzet = isi.reduce((s, x) => s + x.o, 0);
-        const orang = new Set(isi.map(x => x.n)).size;
+    let html = '<h3 style="margin-bottom:12px;">' + nama + ' — Riwayat Penjualan</h3>';
+    html += '<table><thead><tr><th>Bulan</th><th>Keping</th><th>Omzet</th></tr></thead><tbody>';
 
-        html += '<tr>' +
-            '<td><strong>' + b + '</strong></td>' +
-            '<td>' + keping.toLocaleString('id-ID') + ' kb</td>' +
-            '<td>' + rupiah(omzet) + '</td>' +
-            '<td>' + orang + ' orang</td>' +
-            '</tr>';
+    let totalKeping = 0;
+    let totalOmzet = 0;
+
+    urutBulan.forEach(b => {
+        const isi = riwayat.find(x => x.b === b);
+        if (isi) {
+            totalKeping += isi.k;
+            totalOmzet += isi.o;
+            html += '<tr><td>' + b + '</td><td>' + isi.k.toLocaleString('id-ID') + ' kb</td><td>' + rupiah(isi.o) + '</td></tr>';
+        }
     });
 
-    document.getElementById('isiTabelPeriode').innerHTML = html ||
-        '<tr><td colspan="4" style="text-align:center;color:#9a8a78;padding:20px;">Tidak ada data</td></tr>';
+    html += '<tr style="font-weight:bold;background:#f4ede4;"><td>TOTAL</td><td>' + totalKeping.toLocaleString('id-ID') + ' kb</td><td>' + rupiah(totalOmzet) + '</td></tr>';
+    html += '</tbody></table>';
+
+    let modal = document.getElementById('modalRiwayat');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modalRiwayat';
+        modal.style.cssText = 'position:fixed;inset:0;background:rgba(74,50,34,0.8);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;';
+        modal.onclick = function(e) {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+        document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = '<div style="background:#fffcf7;padding:24px;border-radius:8px;max-width:600px;width:100%;max-height:80vh;overflow:auto;border:1px solid #c9a66b;">' +
+        '<button onclick="document.getElementById(\'modalRiwayat\').style.display=\'none\'" style="float:right;background:none;border:none;font-size:20px;cursor:pointer;color:#8a7a68;">×</button>' +
+        html + '</div>';
+
+    modal.style.display = 'flex';
 }
 
 // ================================================================
@@ -314,8 +386,14 @@ function unduhCSV(jenis) {
         isi = hasil.map(d => [d.b, d.n, d.k, d.o]);
         namaFile = 'sewu-data-beranda.csv';
     } else if (jenis === 'statistik') {
+        const bulan = document.getElementById('filterBulanStat').value;
+        const orang = document.getElementById('filterOrangStat').value;
+        let d = data;
+        if (bulan !== 'all') d = d.filter(x => x.b === bulan);
+        if (orang !== 'all') d = d.filter(x => x.n === orang);
+
         const rekap = {};
-        data.forEach(x => {
+        d.forEach(x => {
             if (!rekap[x.n]) rekap[x.n] = { k: 0, o: 0, minggu: 0 };
             rekap[x.n].k += x.k;
             rekap[x.n].o += x.o;
@@ -329,8 +407,12 @@ function unduhCSV(jenis) {
         isi = urut.map((x, i) => [i + 1, x.nama, x.k, x.o, Math.round(x.rata)]);
         namaFile = 'sewu-data-statistik.csv';
     } else if (jenis === 'pedagang') {
+        const bulan = document.getElementById('filterBulanPedagang').value;
+        let d = data;
+        if (bulan !== 'all') d = d.filter(x => x.b === bulan);
+
         const rekap = {};
-        data.forEach(x => {
+        d.forEach(x => {
             if (!rekap[x.n]) rekap[x.n] = { k: 0, o: 0, entri: 0 };
             rekap[x.n].k += x.k;
             rekap[x.n].o += x.o;
@@ -343,16 +425,6 @@ function unduhCSV(jenis) {
         judul = ['No', 'Nama Pedagang', 'Jumlah Entri', 'Total Keping', 'Total Omzet'];
         isi = urut.map((x, i) => [i + 1, x.nama, x.entri, x.k, x.o]);
         namaFile = 'sewu-data-pedagang.csv';
-    } else if (jenis === 'periode' || jenis === 'laporan') {
-        judul = ['Bulan', 'Total Keping', 'Total Omzet', 'Jumlah Pedagang'];
-        isi = urutBulan.map(b => {
-            const d = data.filter(x => x.b === b);
-            const keping = d.reduce((s, x) => s + x.k, 0);
-            const omzet = d.reduce((s, x) => s + x.o, 0);
-            const orang = new Set(d.map(x => x.n)).size;
-            return [b, keping, omzet, orang];
-        });
-        namaFile = 'sewu-data-periode.csv';
     }
 
     const baris = [judul, ...isi];
@@ -373,7 +445,7 @@ function unduhCSV(jenis) {
 }
 
 // ================================================================
-// UNDUH EXCEL (.xls)
+// UNDUH EXCEL
 // ================================================================
 function unduhExcel(jenis) {
     let judul = [];
@@ -394,8 +466,14 @@ function unduhExcel(jenis) {
         isi = hasil.map(d => [d.b, d.n, d.k, d.o]);
         namaFile = 'sewu-data-beranda.xls';
     } else if (jenis === 'statistik') {
+        const bulan = document.getElementById('filterBulanStat').value;
+        const orang = document.getElementById('filterOrangStat').value;
+        let d = data;
+        if (bulan !== 'all') d = d.filter(x => x.b === bulan);
+        if (orang !== 'all') d = d.filter(x => x.n === orang);
+
         const rekap = {};
-        data.forEach(x => {
+        d.forEach(x => {
             if (!rekap[x.n]) rekap[x.n] = { k: 0, o: 0, minggu: 0 };
             rekap[x.n].k += x.k;
             rekap[x.n].o += x.o;
@@ -409,8 +487,12 @@ function unduhExcel(jenis) {
         isi = urut.map((x, i) => [i + 1, x.nama, x.k, x.o, Math.round(x.rata)]);
         namaFile = 'sewu-data-statistik.xls';
     } else if (jenis === 'pedagang') {
+        const bulan = document.getElementById('filterBulanPedagang').value;
+        let d = data;
+        if (bulan !== 'all') d = d.filter(x => x.b === bulan);
+
         const rekap = {};
-        data.forEach(x => {
+        d.forEach(x => {
             if (!rekap[x.n]) rekap[x.n] = { k: 0, o: 0, entri: 0 };
             rekap[x.n].k += x.k;
             rekap[x.n].o += x.o;
@@ -423,25 +505,15 @@ function unduhExcel(jenis) {
         judul = ['No', 'Nama Pedagang', 'Jumlah Entri', 'Total Keping', 'Total Omzet'];
         isi = urut.map((x, i) => [i + 1, x.nama, x.entri, x.k, x.o]);
         namaFile = 'sewu-data-pedagang.xls';
-    } else if (jenis === 'periode' || jenis === 'laporan') {
-        judul = ['Bulan', 'Total Keping', 'Total Omzet', 'Jumlah Pedagang'];
-        isi = urutBulan.map(b => {
-            const d = data.filter(x => x.b === b);
-            const keping = d.reduce((s, x) => s + x.k, 0);
-            const omzet = d.reduce((s, x) => s + x.o, 0);
-            const orang = new Set(d.map(x => x.n)).size;
-            return [b, keping, omzet, orang];
-        });
-        namaFile = 'sewu-data-periode.xls';
     }
 
     let html = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
     html += '<head><meta charset="UTF-8">';
     html += '<style>table{border-collapse:collapse}th{background:#7a5a44;color:#fff;padding:6px 10px;border:1px solid #5a3e2e;font-size:11pt}td{padding:5px 10px;border:1px solid #d8ccbc;font-size:11pt}</style>';
     html += '</head><body>';
-    html += '<h2>SEWU DATA · Pasar Pring Sewu</h2>';
+    html += '<h2>SEWU DATA - Pasar Pring Sewu</h2>';
     html += '<p>Dusun Binangun, Desa Plintahan, Pandaan</p>';
-    html += '<p>Periode: November 2025 – Agustus 2026</p><br>';
+    html += '<p>Periode: November 2025 - Agustus 2026</p><br>';
     html += '<table><tr>';
     judul.forEach(j => html += '<th>' + j + '</th>');
     html += '</tr>';
@@ -464,19 +536,16 @@ function unduhExcel(jenis) {
 // INISIALISASI SETELAH DATA SIAP
 // ================================================================
 function siapkanDashboard() {
-    // === Isi dropdown BULAN otomatis ===
     const daftarBulan = [...new Set(data.map(d => d.b))];
-
-    // Urutan bulan yang kita mau (biar rapi)
     const urutanBulan = ['NOV 2025', 'DES 2025', 'JAN 2026', 'FEB 2026', 'MAR 2026',
                          'APRIL 2026', 'MEI 2026', 'JUNI 2026', 'JULI 2026',
                          'AGUSTUS 2026', 'SEPTEMBER 2026'];
-
-    // Gabungkan: pakai urutan manual dulu, lalu tambah bulan lain yang belum terdaftar
     const bulanFinal = [
         ...urutanBulan.filter(b => daftarBulan.includes(b)),
         ...daftarBulan.filter(b => !urutanBulan.includes(b))
     ];
+
+    const bulanOtomatis = cariBulanOtomatis(bulanFinal);
 
     const selBulan = document.getElementById('filterBulan');
     selBulan.innerHTML = '<option value="all">Semua Bulan</option>';
@@ -486,9 +555,30 @@ function siapkanDashboard() {
         opt.textContent = b;
         selBulan.appendChild(opt);
     });
+    selBulan.value = bulanOtomatis;
 
-    // === Isi dropdown PEDAGANG otomatis ===
+    const selBulanStat = document.getElementById('filterBulanStat');
+    selBulanStat.innerHTML = '<option value="all">Semua Bulan</option>';
+    bulanFinal.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b;
+        opt.textContent = b;
+        selBulanStat.appendChild(opt);
+    });
+    selBulanStat.value = bulanOtomatis;
+
+    const selBulanPedagang = document.getElementById('filterBulanPedagang');
+    selBulanPedagang.innerHTML = '<option value="all">Semua Bulan</option>';
+    bulanFinal.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b;
+        opt.textContent = b;
+        selBulanPedagang.appendChild(opt);
+    });
+    selBulanPedagang.value = bulanOtomatis;
+
     const daftarOrang = [...new Set(data.map(d => d.n))].sort();
+
     const selOrang = document.getElementById('filterOrang');
     selOrang.innerHTML = '<option value="all">Semua Pedagang</option>';
     daftarOrang.forEach(n => {
@@ -498,9 +588,16 @@ function siapkanDashboard() {
         selOrang.appendChild(opt);
     });
 
-    // === Jalankan semua tampilan ===
+    const selOrangStat = document.getElementById('filterOrangStat');
+    selOrangStat.innerHTML = '<option value="all">Semua Pedagang</option>';
+    daftarOrang.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n;
+        opt.textContent = n;
+        selOrangStat.appendChild(opt);
+    });
+
     saring();
     isiHalamanStatistik();
     isiHalamanPedagang();
-    isiHalamanPeriode();
 }

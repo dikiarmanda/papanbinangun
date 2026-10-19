@@ -9,7 +9,7 @@ class SewuAuthController extends BaseController
     public function login()
     {
         if (session()->get('sewu_logged_in')) {
-            return redirect()->to(base_url('sewu-data/'));
+            return redirect()->to(base_url('sewu-data/admin'));
         }
         return view('sewu_data/login');
     }
@@ -33,7 +33,7 @@ class SewuAuthController extends BaseController
                     'sewu_logged_in' => true,
                 ]);
 
-                return redirect()->to(base_url('sewu-data/'));
+                return redirect()->to(base_url('sewu-data/admin'));
             }
         }
 

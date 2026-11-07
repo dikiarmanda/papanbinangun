@@ -6,11 +6,19 @@ class KontakController extends BaseController
 {
     public function index()
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         $settings = pengaturan();
         $mapQuery = 'Desa+Binangun+Pandaan+Pasuruan+Jawa+Timur';
 
         $mapEmbed = $settings['google_maps_embed'] ?? '';
-        if ($mapEmbed === '' || $mapEmbed === null) {
+        $safeMap = ($mapEmbed !== '' && $mapEmbed !== null) ? sanitize_google_maps_embed($mapEmbed) : null;
+
+        if ($safeMap !== null && $safeMap !== '') {
+            $mapEmbed = $safeMap;
+        } else {
             $mapEmbed = '<iframe src="https://maps.google.com/maps?q=' . $mapQuery . '&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Peta Wisata Binangun"></iframe>';
         }
 

@@ -200,5 +200,7 @@ class Database extends Config
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
+
+        $this->default['DBDebug'] = (ENVIRONMENT !== 'production');
     }
 }

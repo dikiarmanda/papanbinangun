@@ -30,6 +30,15 @@ class PengaturanController extends BaseController
     {
         $current = $this->model->get();
 
+        $rawMaps = trim((string) $this->request->getPost('google_maps_embed'));
+        $mapsEmbed = '';
+        if ($rawMaps !== '') {
+            $mapsEmbed = sanitize_google_maps_embed($rawMaps);
+            if ($mapsEmbed === null) {
+                return redirect()->back()->withInput()->with('error', 'Format Google Maps Embed tidak valid. Gunakan iframe atau URL resmi Google Maps.');
+            }
+        }
+
         $data = [
             'nama_desa' => $this->request->getPost('nama_desa'),
             'tagline' => $this->request->getPost('tagline'),
@@ -40,7 +49,7 @@ class PengaturanController extends BaseController
             'instagram_url' => $this->request->getPost('instagram_url'),
             'tiktok_url' => $this->request->getPost('tiktok_url'),
             'facebook_url' => $this->request->getPost('facebook_url'),
-            'google_maps_embed' => $this->request->getPost('google_maps_embed'),
+            'google_maps_embed' => $mapsEmbed,
         ];
 
         $logo = ImageUploader::upload('logo', 'uploads/logo', 400);
@@ -56,6 +65,7 @@ class PengaturanController extends BaseController
             $this->model->insert($data);
         }
 
+        cache()->delete('pengaturan_situs');
         ActivityLogService::log('mengubah pengaturan situs', 'pengaturan_situs', 1);
 
         return redirect()->to(site_url('admin/pengaturan'))->with('success', 'Pengaturan berhasil disimpan.');

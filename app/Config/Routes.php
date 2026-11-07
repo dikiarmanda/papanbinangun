@@ -80,7 +80,7 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
         $routes->post('delete/(:num)', 'Admin\BannerAdminController::delete/$1');
     });
 
-    $routes->group('users', static function ($routes) {
+    $routes->group('users', ['filter' => 'superadmin'], static function ($routes) {
         $routes->get('/', 'Admin\UserAdminController::index');
         $routes->get('create', 'Admin\UserAdminController::create');
         $routes->post('store', 'Admin\UserAdminController::store');
@@ -89,7 +89,7 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
         $routes->post('delete/(:num)', 'Admin\UserAdminController::delete/$1');
     });
 
-    $routes->group('pengaturan', static function ($routes) {
+    $routes->group('pengaturan', ['filter' => 'superadmin'], static function ($routes) {
         $routes->get('/', 'Admin\PengaturanController::index');
         $routes->post('update', 'Admin\PengaturanController::update');
     });

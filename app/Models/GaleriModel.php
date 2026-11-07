@@ -52,27 +52,40 @@ class GaleriModel extends Model
     }
 
     /**
-     * Daftar galeri untuk halaman publik — urutan acak.
+     * Daftar galeri untuk halaman publik — dibatasi & dicache (optimasi P1).
      *
      * @return list<array<string, mixed>>
      */
-    public function getPublicGallery(?string $kategoriSlug = null): array
+    public function getPublicGallery(?string $kategoriSlug = null, int $limit = 60): array
     {
-        $builder = $this->select('galeri.id, galeri.judul, galeri.gambar');
+        $cacheKey = 'galeri_public_' . ($kategoriSlug ?: 'all') . '_' . $limit;
 
-        if ($kategoriSlug !== null && $kategoriSlug !== '') {
-            $sub = $this->db->table('galeri_kategori gk')
-                ->select('gk.galeri_id')
-                ->join('kategori_artikel ka', 'ka.id = gk.kategori_id')
-                ->where('ka.slug', $kategoriSlug);
+        return cache()->remember($cacheKey, 600, function () use ($kategoriSlug, $limit) {
+            $builder = $this->select('galeri.id, galeri.judul, galeri.gambar');
 
-            $builder->whereIn('galeri.id', $sub);
+            if ($kategoriSlug !== null && $kategoriSlug !== '') {
+                $sub = $this->db->table('galeri_kategori gk')
+                    ->select('gk.galeri_id')
+                    ->join('kategori_artikel ka', 'ka.id = gk.kategori_id')
+                    ->where('ka.slug', $kategoriSlug);
+
+                $builder->whereIn('galeri.id', $sub);
+            }
+
+            $rows = $builder->orderBy('galeri.id', 'DESC')->limit($limit)->findAll();
+            shuffle($rows);
+
+            return $rows;
+        });
+    }
+
+    public static function clearPublicCache(): void
+    {
+        try {
+            cache()->deleteMatching('galeri_public*');
+        } catch (\Throwable $e) {
+            cache()->delete('galeri_public_all_60');
         }
-
-        $rows = $builder->findAll();
-        shuffle($rows);
-
-        return $rows;
     }
 
     /**

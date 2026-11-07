@@ -7,9 +7,12 @@ use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
 use App\Libraries\ActivityLogService;
 use App\Libraries\ImageUploader;
+use App\Traits\HasUniqueSlug;
 
 class ArtikelAdminController extends BaseController
 {
+    use HasUniqueSlug;
+
     protected ArtikelModel $artikelModel;
     protected KategoriModel $kategoriModel;
 
@@ -154,22 +157,5 @@ class ArtikelAdminController extends BaseController
                 ], admin_form_raw('status', $artikel['status'] ?? 'draft')),
             ],
         ];
-    }
-
-    private function uniqueSlug(string $slug, ?int $excludeId = null): string
-    {
-        $base = $slug;
-        $count = 1;
-
-        while (true) {
-            $builder = $this->artikelModel->where('slug', $slug);
-            if ($excludeId) {
-                $builder->where('id !=', $excludeId);
-            }
-            if (!$builder->first()) {
-                return $slug;
-            }
-            $slug = $base . '-' . $count++;
-        }
     }
 }

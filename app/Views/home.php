@@ -16,9 +16,12 @@
             <div class="hero-actions">
                 <a href="<?= site_url('wisata') ?>" class="btn btn-primary"><i class="fa-solid fa-compass"></i> Jelajahi
                     Wisata</a>
-                <a href="<?= wa_link($pengaturan['no_whatsapp'], 'Halo, saya ingin bertanya tentang ' . $pengaturan['nama_desa']) ?>"
-                    class="btn btn-outline-light" target="_blank" rel="noopener"><i class="fa-solid fa-ticket"></i>
+                <a href="https://reservasi.papanbinangun.id" class="btn btn-outline-light" target="_blank"
+                    rel="noopener"><i class="fa-solid fa-ticket"></i>
                     Reservasi</a>
+                <a href="https://layanan.papanbinangun.id" class="btn bg-white" target="_blank" rel="noopener"><i
+                        class="fa-solid fa-cart-shopping"></i>
+                    Beli Produk UMKM</a>
             </div>
         </div>
 
@@ -28,8 +31,7 @@
                     <?php foreach ($heroBanners as $i => $banner): ?>
                         <?php $imgUrl = banner_image_url($banner['gambar']); ?>
                         <div class="hero-banner-slide<?= $i === 0 ? ' is-active' : '' ?>" role="group"
-                            aria-roledescription="slide"
-                            aria-label="<?= ($i + 1) ?> dari <?= count($heroBanners) ?>">
+                            aria-roledescription="slide" aria-label="<?= ($i + 1) ?> dari <?= count($heroBanners) ?>">
                             <?php if (!empty($banner['link_url'])): ?>
                                 <a href="<?= esc($banner['link_url'], 'attr') ?>" class="hero-banner-link" target="_blank"
                                     rel="noopener">
@@ -93,13 +95,12 @@
             <p>Saksikan potret kehidupan dan pesona alam Wisata Binangun</p>
         </div>
         <div class="video-frame">
-            <div class="video-embed" data-youtube-facade
-                data-youtube-id="<?= esc($youtubeId, 'attr') ?>"
+            <div class="video-embed" data-youtube-facade data-youtube-id="<?= esc($youtubeId, 'attr') ?>"
                 data-youtube-title="Video profil <?= esc($pengaturan['nama_desa'], 'attr') ?>">
                 <button type="button" class="video-facade" aria-label="Putar video profil">
                     <img src="<?= asset_url('assets/images/overlay-youtube.png') ?>"
-                        alt="Thumbnail video profil <?= esc($pengaturan['nama_desa']) ?>"
-                        class="video-facade-img" width="1280" height="720" loading="lazy">
+                        alt="Thumbnail video profil <?= esc($pengaturan['nama_desa']) ?>" class="video-facade-img"
+                        width="1280" height="720" loading="lazy">
                     <span class="video-facade-play" aria-hidden="true">
                         <i class="fa-solid fa-play"></i>
                     </span>
@@ -212,8 +213,8 @@
                             </div>
                             <p class="testimonial-text">“<?= esc($t['teks']) ?>”</p>
                             <footer class="testimonial-author">
-                                <img src="<?= esc($t['foto'], 'attr') ?>" alt="<?= esc($t['nama']) ?>" loading="lazy" width="48"
-                                    height="48">
+                                <img src="<?= esc($t['foto'], 'attr') ?>" alt="<?= esc($t['nama']) ?>" loading="lazy"
+                                    width="48" height="48">
                                 <div>
                                     <strong><?= esc($t['nama']) ?></strong>
                                 </div>

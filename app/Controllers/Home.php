@@ -69,19 +69,24 @@ class Home extends BaseController
     {
         return [
             [
-                'nama' => 'Pemerintah Kabupaten Pasuruan',
-                'logo' => 'assets/images/support/pasuruan.png',
-                'url' => 'https://www.pasuruankab.go.id/',
-            ],
-            [
                 'nama' => 'Diktisaintek Berdampak',
                 'logo' => 'assets/images/support/diktisaintek.png',
                 'url' => 'https://kemdiktisaintek.go.id/library/book/diktisaintek-berdampak',
             ],
             [
+                'nama' => 'Pemerintah Kabupaten Pasuruan',
+                'logo' => 'assets/images/support/pasuruan.png',
+                'url' => 'https://www.pasuruankab.go.id/',
+            ],
+            [
                 'nama' => 'Universitas Muhammadiyah Sidoarjo',
                 'logo' => 'assets/images/support/umsida-brand.png',
                 'url' => 'https://umsida.ac.id/',
+            ],
+            [
+                'nama' => 'PMM PLINTAHAN',
+                'logo' => 'assets/images/support/pmm.png',
+                'url' => 'https://instagram.com/pmmplintahan2026/',
             ],
         ];
     }

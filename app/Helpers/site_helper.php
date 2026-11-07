@@ -3,12 +3,18 @@
 use App\Models\PengaturanModel;
 
 if (!function_exists('pengaturan')) {
-    function pengaturan(): array
+    function pengaturan(?string $key = null, bool $forceRefresh = false): mixed
     {
         static $data = null;
 
-        if ($data === null) {
-            $data = (new PengaturanModel())->get();
+        if ($forceRefresh || $data === null) {
+            $data = cache()->remember('pengaturan_situs', 3600, static function () {
+                return (new PengaturanModel())->get();
+            });
+        }
+
+        if ($key !== null) {
+            return $data[$key] ?? null;
         }
 
         return $data;
@@ -285,5 +291,70 @@ if (!function_exists('format_tanggal')) {
         $y = date('Y', $ts);
 
         return "{$d} {$bulan[$m]} {$y}";
+    }
+}
+
+if (!function_exists('sanitize_google_maps_embed')) {
+    /**
+     * Sanitasi Google Maps embed code / URL untuk mencegah stored XSS.
+     * Hanya mengizinkan iframe resmi Google Maps (HTTPS).
+     *
+     * @param string|null $input
+     * @return string|null Mengembalikan tag <iframe> yang aman, string kosong jika input kosong, atau null jika format tidak valid
+     */
+    function sanitize_google_maps_embed(?string $input): ?string
+    {
+        if ($input === null) {
+            return null;
+        }
+
+        $input = trim($input);
+        if ($input === '') {
+            return '';
+        }
+
+        $url = null;
+
+        if (preg_match('/<iframe\b[^>]*\bsrc=["\']([^"\']+)["\']/i', $input, $matches)) {
+            $url = htmlspecialchars_decode(trim($matches[1]));
+        } elseif (filter_var($input, FILTER_VALIDATE_URL)) {
+            $url = $input;
+        }
+
+        if (!$url) {
+            return null;
+        }
+
+        $parsed = parse_url($url);
+        if (!$parsed || empty($parsed['host']) || empty($parsed['scheme'])) {
+            return null;
+        }
+
+        if (strtolower($parsed['scheme']) !== 'https') {
+            return null;
+        }
+
+        $host = strtolower($parsed['host']);
+        $isGoogleHost = (
+            $host === 'google.com' ||
+            $host === 'google.co.id' ||
+            str_ends_with($host, '.google.com') ||
+            str_ends_with($host, '.google.co.id')
+        );
+
+        if (!$isGoogleHost) {
+            return null;
+        }
+
+        $path = $parsed['path'] ?? '';
+        $isMapsPath = str_starts_with($path, '/maps') || str_starts_with($host, 'maps.');
+
+        if (!$isMapsPath) {
+            return null;
+        }
+
+        $safeUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+
+        return '<iframe src="' . $safeUrl . '" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Peta Lokasi"></iframe>';
     }
 }

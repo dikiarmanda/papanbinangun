@@ -9,6 +9,10 @@ class WisataController extends BaseController
 {
     public function index()
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         return view('wisata/index', [
             'title' => 'Destinasi Wisata',
             'meta_description' => 'Jelajahi destinasi wisata desa',
@@ -19,6 +23,10 @@ class WisataController extends BaseController
 
     public function detail(string $slug)
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         $wisata = (new WisataModel())->findBySlug($slug);
 
         if (!$wisata) {

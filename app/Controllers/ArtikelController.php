@@ -9,6 +9,10 @@ class ArtikelController extends BaseController
 {
     public function index()
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         $model    = new ArtikelModel();
         $perPage  = 9;
         $page     = max(1, (int) ($this->request->getGet('page') ?? 1));
@@ -39,15 +43,31 @@ class ArtikelController extends BaseController
         $model->incrementViews((int) $artikel['id']);
         $artikel['views'] = (int) $artikel['views'] + 1;
 
+        $terkaitBuilder = (new ArtikelModel())->where('status', 'publish')
+            ->where('id !=', $artikel['id']);
+
+        if (!empty($artikel['kategori_id'])) {
+            $terkaitBuilder->where('kategori_id', $artikel['kategori_id']);
+        }
+
+        $terkait = $terkaitBuilder->orderBy('published_at', 'DESC')->findAll(3);
+
+        if (count($terkait) < 3) {
+            $excludeIds = array_merge([(int) $artikel['id']], array_map('intval', array_column($terkait, 'id')));
+            $fallback = (new ArtikelModel())->where('status', 'publish')
+                ->whereNotIn('id', $excludeIds)
+                ->orderBy('published_at', 'DESC')
+                ->findAll(3 - count($terkait));
+
+            $terkait = array_merge($terkait, $fallback);
+        }
+
         return view('artikel/detail', [
             'title'            => $artikel['judul'],
             'meta_description' => $artikel['ringkasan'] ?: mb_substr(strip_tags($artikel['konten']), 0, 160),
             'meta_image'       => $artikel['gambar_cover'] ? base_url($artikel['gambar_cover']) : null,
             'artikel'          => $artikel,
-            'terkait'          => $model->where('status', 'publish')
-                ->where('id !=', $artikel['id'])
-                ->orderBy('published_at', 'DESC')
-                ->findAll(3),
+            'terkait'          => $terkait,
             'pengaturan'       => pengaturan(),
         ]);
     }

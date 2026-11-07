@@ -6,9 +6,12 @@ use App\Controllers\BaseController;
 use App\Models\WisataModel;
 use App\Libraries\ActivityLogService;
 use App\Libraries\ImageUploader;
+use App\Traits\HasUniqueSlug;
 
 class WisataAdminController extends BaseController
 {
+    use HasUniqueSlug;
+
     protected WisataModel $model;
 
     public function __construct()
@@ -38,12 +41,21 @@ class WisataAdminController extends BaseController
         $status = $this->request->getPost('status') ?: 'draft';
         $slug = $this->uniqueSlug($slug);
 
+        $rawMaps = trim((string) $this->request->getPost('google_maps_embed'));
+        $mapsEmbed = null;
+        if ($rawMaps !== '') {
+            $mapsEmbed = sanitize_google_maps_embed($rawMaps);
+            if ($mapsEmbed === null) {
+                return redirect()->back()->withInput()->with('error', 'Format Google Maps Embed tidak valid. Gunakan iframe atau URL resmi Google Maps.');
+            }
+        }
+
         $data = [
             'nama' => $nama,
             'slug' => $slug,
             'deskripsi' => $this->request->getPost('deskripsi'),
             'fasilitas' => $this->collectFasilitas(),
-            'google_maps_embed' => trim($this->request->getPost('google_maps_embed') ?? '') ?: null,
+            'google_maps_embed' => $mapsEmbed,
             'status' => $status,
             'admin_id' => session()->get('admin_id'),
         ];
@@ -86,12 +98,21 @@ class WisataAdminController extends BaseController
             $slug = $this->uniqueSlug($slug, $id);
         }
 
+        $rawMaps = trim((string) $this->request->getPost('google_maps_embed'));
+        $mapsEmbed = null;
+        if ($rawMaps !== '') {
+            $mapsEmbed = sanitize_google_maps_embed($rawMaps);
+            if ($mapsEmbed === null) {
+                return redirect()->back()->withInput()->with('error', 'Format Google Maps Embed tidak valid. Gunakan iframe atau URL resmi Google Maps.');
+            }
+        }
+
         $data = [
             'nama' => $nama,
             'slug' => $slug,
             'deskripsi' => $this->request->getPost('deskripsi'),
             'fasilitas' => $this->collectFasilitas(),
-            'google_maps_embed' => trim($this->request->getPost('google_maps_embed') ?? '') ?: null,
+            'google_maps_embed' => $mapsEmbed,
             'status' => $this->request->getPost('status') ?: 'draft',
         ];
 
@@ -141,23 +162,6 @@ class WisataAdminController extends BaseController
                 'fasilitasIconsJson' => esc(json_encode(wisata_fasilitas_icons(), JSON_UNESCAPED_UNICODE), 'attr'),
             ],
         ];
-    }
-
-    private function uniqueSlug(string $slug, ?int $excludeId = null): string
-    {
-        $base = $slug;
-        $count = 1;
-
-        while (true) {
-            $builder = $this->model->where('slug', $slug);
-            if ($excludeId) {
-                $builder->where('id !=', $excludeId);
-            }
-            if (!$builder->first()) {
-                return $slug;
-            }
-            $slug = $base . '-' . $count++;
-        }
     }
 
     private function collectFasilitas(): ?string

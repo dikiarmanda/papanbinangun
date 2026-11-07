@@ -9,6 +9,10 @@ class GaleriController extends BaseController
 {
     public function index()
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         $kategoriSlug = $this->request->getGet('kategori');
         $galeri = (new GaleriModel())->getPublicGallery($kategoriSlug);
 

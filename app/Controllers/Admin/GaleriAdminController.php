@@ -52,6 +52,7 @@ class GaleriAdminController extends BaseController
 
         $id = (int) $this->model->insert($data);
         $this->model->syncKategori($id, $this->model->parseKategoriIdsFromRequest($this->request->getPost('kategori_id')));
+        GaleriModel::clearPublicCache();
         ActivityLogService::log('menambah foto galeri', 'galeri', $id);
 
         return redirect()->to(site_url('admin/galeri'))->with('success', 'Foto berhasil ditambahkan.');
@@ -70,6 +71,7 @@ class GaleriAdminController extends BaseController
         ]);
 
         $this->model->syncKategori($id, $this->model->parseKategoriIdsFromRequest($this->request->getPost('kategori_id')));
+        GaleriModel::clearPublicCache();
         ActivityLogService::log('mengubah foto galeri', 'galeri', $id);
 
         return redirect()->to(site_url('admin/galeri'))->with('success', 'Foto berhasil diperbarui.');
@@ -81,6 +83,7 @@ class GaleriAdminController extends BaseController
         if ($item) {
             ImageUploader::delete($item['gambar']);
             $this->model->delete($id);
+            GaleriModel::clearPublicCache();
             ActivityLogService::log('menghapus foto galeri', 'galeri', $id);
         }
 

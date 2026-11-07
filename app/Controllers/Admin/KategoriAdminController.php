@@ -6,9 +6,12 @@ use App\Controllers\BaseController;
 use App\Models\ArtikelModel;
 use App\Models\KategoriModel;
 use App\Libraries\ActivityLogService;
+use App\Traits\HasUniqueSlug;
 
 class KategoriAdminController extends BaseController
 {
+    use HasUniqueSlug;
+
     protected KategoriModel $model;
 
     public function __construct()
@@ -81,22 +84,5 @@ class KategoriAdminController extends BaseController
         ActivityLogService::log('menghapus kategori: ' . $kategori['nama'], 'kategori_artikel', $id);
 
         return redirect()->to(site_url('admin/kategori'))->with('success', 'Kategori berhasil dihapus.');
-    }
-
-    private function uniqueSlug(string $slug, ?int $excludeId = null): string
-    {
-        $base = $slug;
-        $count = 1;
-
-        while (true) {
-            $builder = $this->model->where('slug', $slug);
-            if ($excludeId) {
-                $builder->where('id !=', $excludeId);
-            }
-            if (!$builder->first()) {
-                return $slug;
-            }
-            $slug = $base . '-' . $count++;
-        }
     }
 }

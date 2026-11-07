@@ -6,6 +6,10 @@ class TentangController extends BaseController
 {
     public function index()
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         $settings = pengaturan();
 
         return view('tentang', [

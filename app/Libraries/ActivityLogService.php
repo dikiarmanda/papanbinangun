@@ -21,6 +21,7 @@ class ActivityLogService
             'target_tabel' => $targetTabel,
             'target_id'    => $targetId,
             'ip_address'   => service('request')->getIPAddress(),
+            'created_at'   => date('Y-m-d H:i:s'),
         ]);
     }
 }

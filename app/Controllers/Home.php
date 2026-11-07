@@ -11,6 +11,10 @@ class Home extends BaseController
 {
     public function index()
     {
+        if (ENVIRONMENT === 'production') {
+            $this->cachePage(600);
+        }
+
         $settings = pengaturan();
         $mapQuery = 'Desa+Binangun+Pandaan+Pasuruan+Jawa+Timur';
 
@@ -129,7 +133,10 @@ class Home extends BaseController
         $embed = $settings['google_maps_embed'] ?? '';
 
         if ($embed !== '' && $embed !== null) {
-            return $embed;
+            $safe = sanitize_google_maps_embed($embed);
+            if ($safe !== null && $safe !== '') {
+                return $safe;
+            }
         }
 
         return '<iframe src="https://maps.google.com/maps?q=' . $mapQuery . '&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Peta Wisata Binangun"></iframe>';

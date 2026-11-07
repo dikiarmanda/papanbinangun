@@ -11,7 +11,7 @@ class ActivityLogModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $allowedFields    = [
-        'admin_id', 'aksi', 'target_tabel', 'target_id', 'ip_address',
+        'admin_id', 'aksi', 'target_tabel', 'target_id', 'ip_address', 'created_at',
     ];
     protected $useTimestamps = false;
 

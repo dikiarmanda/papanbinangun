@@ -47,6 +47,7 @@
                     class="<?= str_starts_with(uri_string(), 'admin/banner') ? 'active' : '' ?>">
                     <i class="fa-solid fa-panorama"></i> Banner Beranda
                 </a>
+                <?php if (is_superadmin()): ?>
                 <a href="<?= site_url('admin/users') ?>"
                     class="<?= str_starts_with(uri_string(), 'admin/users') ? 'active' : '' ?>">
                     <i class="fa-solid fa-users-gear"></i> Akun Admin
@@ -55,6 +56,7 @@
                     class="<?= str_starts_with(uri_string(), 'admin/pengaturan') ? 'active' : '' ?>">
                     <i class="fa-solid fa-gear"></i> Pengaturan
                 </a>
+                <?php endif; ?>
             </nav>
             <div class="sidebar-footer">
                 <div class="admin-user"><i class="fa-solid fa-user"></i> <?= esc(session('admin_nama')) ?></div>

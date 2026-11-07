@@ -29,7 +29,11 @@ class PengaturanModel extends Model
 
     public function get(): array
     {
-        $row = $this->find(1);
+        try {
+            $row = $this->find(1);
+        } catch (\Throwable $e) {
+            $row = null;
+        }
 
         return $row ?? [
             'id' => 1,

@@ -46,11 +46,13 @@
 
         <!-- <?= view('partials/homestay', ['homestayKamar' => $homestayKamar, 'pengaturan' => $pengaturan]) ?> -->
 
-        <?php if (!empty($wisata['google_maps_embed'])): ?>
+        <?php 
+        $sanitizedMap = !empty($wisata['google_maps_embed']) ? sanitize_google_maps_embed($wisata['google_maps_embed']) : null;
+        if (!empty($sanitizedMap)): ?>
             <div class="map-box mt-lg">
                 <h3 class="detail-section-title"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Lokasi</h3>
                 <div class="map-embed">
-                    <?= $wisata['google_maps_embed'] ?>
+                    <?= $sanitizedMap ?>
                 </div>
             </div>
         <?php endif; ?>

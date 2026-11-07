@@ -26,7 +26,7 @@ class AdminModel extends Model
     protected $validationRules = [
         'nama' => 'required|min_length[3]|max_length[100]',
         'email' => 'required|valid_email|max_length[150]',
-        'role' => 'required|in_list[superadmin,admin]',
+        'role' => 'required|in_list[superadmin,admin,operator]',
         'status' => 'required|in_list[aktif,nonaktif]',
     ];
 
@@ -38,6 +38,6 @@ class AdminModel extends Model
     /** @return list<array> */
     public function findAllManageable(): array
     {
-        return $this->where('role', 'admin')->orderBy('nama', 'ASC')->findAll();
+        return $this->whereIn('role', ['admin', 'operator'])->orderBy('nama', 'ASC')->findAll();
     }
 }

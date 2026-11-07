@@ -1,0 +1,6 @@
+# Proteksi privasi percakapan chat
+<FilesMatch "\.json$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+Options -Indexes

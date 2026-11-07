@@ -24,6 +24,9 @@ $routes->group('artikel', static function ($routes) {
 });
 
 $routes->get('galeri', 'GaleriController::index');
+$routes->get('download/apk', 'DownloadController::apk');
+$routes->get('download/papan_binangun\.apk', 'DownloadController::apk');
+$routes->get('papan_binangun\.apk', 'DownloadController::apk');
 
 // -------------------------------------------------------------------------
 // Admin auth (tanpa filter adminauth pada login)
@@ -93,6 +96,11 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
         $routes->get('/', 'Admin\PengaturanController::index');
         $routes->post('update', 'Admin\PengaturanController::update');
     });
+
+    $routes->group('transaksi', static function ($routes) {
+        $routes->get('/', 'Admin\TransaksiAdminController::index');
+        $routes->post('update-status', 'Admin\TransaksiAdminController::updateStatus');
+    });
 });
 
 // -------------------------------------------------------------------------
@@ -118,4 +126,48 @@ $routes->group('sewu-data', ['filter' => 'sewuauth'], static function ($routes) 
     $routes->get('admin/hapus/(:num)', 'SewuAdminController::hapus/$1');
     $routes->get('admin/edit/(:num)', 'SewuAdminController::edit/$1');
     $routes->post('admin/update/(:num)', 'SewuAdminController::update/$1');
+});
+
+// -------------------------------------------------------------------------
+// API REST MOBILE (Flutter) — Tanpa CSRF
+// -------------------------------------------------------------------------
+$routes->group('api', static function ($routes) {
+    $routes->options('(:any)', 'Api\BaseApiController::options');
+
+    // Auth
+    $routes->post('auth/register(\.php)?', 'Api\AuthController::register');
+    $routes->post('auth/login(\.php)?', 'Api\AuthController::login');
+
+    // Kategori & Zona
+    $routes->get('kategori/list(\.php)?', 'Api\KategoriController::list');
+    $routes->get('zona/list(\.php)?', 'Api\ZonaController::list');
+
+    // Produk
+    $routes->get('produk/list(\.php)?', 'Api\ProdukController::list');
+    $routes->get('produk/detail(\.php)?', 'Api\ProdukController::detail');
+
+    // Homestay
+    $routes->get('homestay/list(\.php)?', 'Api\HomestayController::list');
+    $routes->get('homestay/detail(\.php)?', 'Api\HomestayController::detail');
+    $routes->post('homestay/booking_create(\.php)?', 'Api\HomestayController::bookingCreate');
+    $routes->get('homestay/booking_track(\.php)?', 'Api\HomestayController::bookingTrack');
+    $routes->post('homestay/bukti_bayar(\.php)?', 'Api\HomestayController::buktiBayar');
+
+    // Order
+    $routes->post('order/create(\.php)?', 'Api\OrderController::create');
+    $routes->get('order/detail(\.php)?', 'Api\OrderController::detail');
+    $routes->get('order/track(\.php)?', 'Api\OrderController::track');
+    $routes->post('order/bukti_bayar(\.php)?', 'Api\OrderController::buktiBayar');
+
+    // Chat
+    $routes->post('chat/kirim(\.php)?', 'Api\ChatController::kirim');
+    $routes->get('chat/riwayat(\.php)?', 'Api\ChatController::riwayat');
+
+    // Admin In-App
+    $routes->post('admin/login(\.php)?', 'Api\AdminApiController::login');
+    $routes->match(['get', 'post'], 'admin/list(\.php)?', 'Api\AdminApiController::list');
+    $routes->post('admin/update_status(\.php)?', 'Api\AdminApiController::updateStatus');
+    $routes->post('admin/chat_list(\.php)?', 'Api\AdminApiController::chatList');
+    $routes->post('admin/chat_detail(\.php)?', 'Api\AdminApiController::chatDetail');
+    $routes->post('admin/chat_balas(\.php)?', 'Api\AdminApiController::chatBalas');
 });

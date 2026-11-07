@@ -47,6 +47,10 @@
                     class="<?= str_starts_with(uri_string(), 'admin/banner') ? 'active' : '' ?>">
                     <i class="fa-solid fa-panorama"></i> Banner Beranda
                 </a>
+                <a href="<?= site_url('admin/transaksi') ?>"
+                    class="<?= str_starts_with(uri_string(), 'admin/transaksi') ? 'active' : '' ?>">
+                    <i class="fa-solid fa-receipt"></i> Transaksi & Layanan
+                </a>
                 <?php if (is_superadmin()): ?>
                 <a href="<?= site_url('admin/users') ?>"
                     class="<?= str_starts_with(uri_string(), 'admin/users') ? 'active' : '' ?>">
